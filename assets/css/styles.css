@@ -152,7 +152,7 @@ select {
 
 /* LOGO */
 .brand__logo {
-  height: 42px;
+  height: 65px;
   width: auto;
   object-fit: contain;
 }
@@ -547,9 +547,22 @@ select {
    estilo: borde redondeado, fondo blanco, sombra sutil.
    El foco resalta con borde amarillo.
    ============================================================ */
+.catalog-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.catalog-toolbar__search,
+.catalog-toolbar__filters {
+  width: 100%;
+}
+
 .catalog-toolbar input,
 .catalog-toolbar select {
-  width: 40%;
+  width: 100%;
   min-height: 40px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -1189,50 +1202,74 @@ select {
    ≤ 560px:  Todo en 1 columna, topbar vertical.
    ============================================================ */
 /* Responsive */
-@media (max-width: 900px) {
-  .footer__grid {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .header__content {
+    gap: 14px;
+  }
+
+  .nav {
+    gap: 24px;
   }
 }
 
-@media (max-width: 500px) {
-  .footer__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-
-
-@media (max-width: 1100px) {
+@media (max-width: 992px) {
   .hero__grid,
-  .catalog-toolbar,
   .section__head,
-  .footer__content,
   .contact-box {
     grid-template-columns: 1fr;
     flex-direction: column;
     align-items: start;
   }
 
-  .category-grid,
-  .product-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .hero__card {
+    width: 100%;
+  }
+
+  .header__content {
+    flex-wrap: wrap;
+    min-height: auto;
+    padding: 12px 0;
+  }
+
+  .header__search {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: stretch;
+  }
+
+  .header__search-wrap {
+    max-width: none;
+  }
+
+  .nav {
+    margin-left: auto;
+  }
+
+  .catalog-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
   }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 768px) {
   .nav {
     display: none;
   }
 
-  .category-grid,
-  .product-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .header__content {
-    min-height: 70px;
+  .topbar__content {
+    min-height: auto;
+    padding: 10px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 
   .hero {
@@ -1242,6 +1279,30 @@ select {
   .section {
     padding: 56px 0;
   }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-box {
+    padding: 26px;
+  }
+
+  .cart-drawer {
+    width: min(420px, 100vw);
+  }
+
+  .whatsapp-float {
+    width: 58px;
+    height: 58px;
+    bottom: 18px;
+    left: 18px;
+  }
+
+  .whatsapp-icon {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -1249,27 +1310,89 @@ select {
     width: min(100% - 24px, var(--container));
   }
 
-  .category-grid,
-  .product-grid {
-    grid-template-columns: 1fr;
+  .header__content {
+    gap: 10px;
   }
 
-  .topbar__content {
-    min-height: auto;
-    padding: 12px 0;
-    flex-direction: column;
-    align-items: start;
+  .brand__logo {
+    height: 56px;
+  }
+
+  .cart-toggle {
+    min-height: 42px;
+    padding: 0 14px;
+    font-size: 0.9rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.7rem, 7.8vw, 2.4rem);
+  }
+
+  .hero p {
+    font-size: 0.98rem;
   }
 
   .hero__actions,
-  .product-card__bottom {
+  .product-card__bottom,
+  .cart-summary__actions {
     width: 100%;
     flex-direction: column;
     align-items: stretch;
   }
 
+  .btn,
+  .btn--primary,
+  .btn--ghost,
+  .btn--ghost-dark,
+  .product-card__cart-btn,
+  .product-card__qty-control {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .product-grid,
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card__footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .contact-box {
-    padding: 24px;
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .footer {
+    margin-top: 56px;
+    padding-top: 48px;
+  }
+
+  .cart-drawer__header,
+  .cart-items,
+  .cart-summary {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .header__search input {
+    min-height: 40px;
+  }
+
+  .hero__card {
+    padding: 20px;
+  }
+
+  .product-card__body {
+    padding: 14px;
+  }
+
+  .cart-drawer {
+    width: 100vw;
   }
 }
 /* ============================================================
