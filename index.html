@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ObraFuerte | Herramientas y equipos para obra</title>
+  <meta name="description" content="Catálogo estático profesional para venta de taladros, amoladoras, generadores, vibradores de cemento y equipos de construcción con pedido directo por WhatsApp." />
+  <meta name="theme-color" content="#f59e0b" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="container topbar__content">
+        <a href="#inicio" class="brand" aria-label="Ir al inicio">
+          <span class="brand__mark">OF</span>
+          <span class="brand__text">
+            <strong>ObraFuerte</strong>
+            <small>Herramientas y equipos para obra</small>
+          </span>
+        </a>
+
+        <nav class="nav" id="mainNav" aria-label="Principal">
+          <a href="#categorias">Categorías</a>
+          <a href="#catalogo">Catálogo</a>
+          <a href="#destacados">Destacados</a>
+          <a href="#beneficios">Por qué elegirnos</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+
+        <div class="topbar__actions">
+          <a class="btn btn--ghost hide-mobile" href="#contacto">Pedir cotización</a>
+          <button class="cart-toggle" id="cartToggle" type="button" aria-label="Abrir carrito">
+            <span class="cart-toggle__icon">🛒</span>
+            <span>Carrito</span>
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="container hero__grid">
+          <div class="hero__content">
+            <span class="eyebrow">Stock para obra, taller e industria liviana</span>
+            <h1>Herramientas que rinden en la obra. Atención rápida y pedido directo por WhatsApp.</h1>
+            <p>
+              Encontrá taladros, amoladoras, generadores, vibradores de cemento y equipos clave para trabajar sin perder tiempo.
+              Buscá por categoría, filtrá en segundos y armá tu pedido desde el carrito.
+            </p>
+
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#catalogo">Ver catálogo</a>
+              <a class="btn btn--secondary" href="#destacados">Ver destacados</a>
+              <a class="btn btn--ghost-dark" id="heroWhatsappLink" href="#" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+            </div>
+
+            <div class="hero__stats" aria-label="Indicadores destacados">
+              <article>
+                <strong>+180</strong>
+                <span>Productos activos</span>
+              </article>
+              <article>
+                <strong>24 hs</strong>
+                <span>Respuesta comercial</span>
+              </article>
+              <article>
+                <strong>Mayorista</strong>
+                <span>Precios por volumen</span>
+              </article>
+            </div>
+          </div>
+
+          <div class="hero__visual" aria-hidden="true">
+            <div class="hero-card hero-card--primary">
+              <span class="hero-card__label">Más consultados</span>
+              <h2>Kit profesional para obra chica y mediana</h2>
+              <ul>
+                <li>Taladro percutor 850W</li>
+                <li>Amoladora angular 115 mm</li>
+                <li>Generador monofásico 3.5 kVA</li>
+              </ul>
+            </div>
+            <div class="hero-card hero-card--secondary">
+              <span class="tag tag--highlight">Entrega rápida</span>
+              <p>Armá el pedido, enviá el mensaje y seguí la cotización por WhatsApp sin formularios largos.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-strip">
+        <div class="container trust-strip__grid">
+          <span>Equipos para construcción</span>
+          <span>Ferretería técnica</span>
+          <span>Atención a profesionales</span>
+          <span>Reposición rápida</span>
+          <span>Cotización directa</span>
+        </div>
+      </section>
+
+      <section class="section" id="categorias">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">Compra más rápido</span>
+              <h2>Categorías pensadas para encontrar lo que necesitás sin vueltas</h2>
+            </div>
+            <p>Elegí una línea de producto y filtrá el catálogo al instante. Ideal para clientes que ya saben qué equipo buscan.</p>
+          </div>
+
+          <div class="category-grid" id="categoryGrid"></div>
+        </div>
+      </section>
+
+      <section class="section section--catalog" id="catalogo">
+        <div class="container">
+          <div class="section-heading section-heading--tight">
+            <div>
+              <span class="section-kicker">Catálogo comercial</span>
+              <h2>Herramientas y equipos listos para cotizar</h2>
+            </div>
+            <p>Buscá por nombre, filtrá por categoría y agregá al carrito lo que querés consultar o comprar.</p>
+          </div>
+
+          <div class="catalog-toolbar">
+            <div class="search-field">
+              <label for="searchInput" class="sr-only">Buscar producto</label>
+              <input type="search" id="searchInput" placeholder="Buscar por ejemplo: taladro, generador, soldadora..." />
+            </div>
+
+            <div class="filter-pills" id="filterPills"></div>
+
+            <div class="catalog-summary">
+              <span id="resultsSummary">0 productos</span>
+              <button class="btn btn--text" id="clearFiltersBtn" type="button">Limpiar filtros</button>
+            </div>
+          </div>
+
+          <div class="product-grid" id="productGrid"></div>
+          <div class="empty-state hidden" id="emptyState">
+            <h3>No encontramos productos con ese criterio</h3>
+            <p>Probá con otra búsqueda o quitá el filtro actual para volver a ver todo el catálogo.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--dark" id="destacados">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">Productos destacados</span>
+              <h2>Equipos elegidos por constructoras, contratistas y talleres</h2>
+            </div>
+            <p>Selección comercial con alta salida, buena relación costo-rendimiento y disponibilidad frecuente.</p>
+          </div>
+
+          <div class="featured-grid" id="featuredGrid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="beneficios">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">Confianza comercial</span>
+              <h2>Una web simple para comprar mejor, sin perder el trato humano</h2>
+            </div>
+            <p>El objetivo no es complicar la compra: es mostrar bien el producto, acelerar la selección y cerrar la consulta por WhatsApp.</p>
+          </div>
+
+          <div class="benefits-grid">
+            <article class="benefit-card reveal">
+              <span>01</span>
+              <h3>Catálogo ordenado</h3>
+              <p>Productos organizados por categoría con búsqueda rápida para reducir tiempo de consulta.</p>
+            </article>
+            <article class="benefit-card reveal">
+              <span>02</span>
+              <h3>Pedido directo</h3>
+              <p>El carrito genera el mensaje automáticamente para que el cliente envíe el detalle exacto por WhatsApp.</p>
+            </article>
+            <article class="benefit-card reveal">
+              <span>03</span>
+              <h3>Diseño responsive real</h3>
+              <p>La experiencia está pensada para celulares, que es donde más se consulta este tipo de productos.</p>
+            </article>
+            <article class="benefit-card reveal">
+              <span>04</span>
+              <h3>Escalable</h3>
+              <p>Los productos y categorías salen de JavaScript, así podés mantener el catálogo sin tocar todo el HTML.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--contact" id="contacto">
+        <div class="container contact-grid">
+          <div class="contact-copy">
+            <span class="section-kicker">Contacto comercial</span>
+            <h2>¿Necesitás cotización rápida o compra por volumen?</h2>
+            <p>
+              Atendemos consultas de particulares, contratistas y empresas. Podés usar el catálogo, armar el carrito y enviarnos el pedido,
+              o escribirnos directamente para stock, precio mayorista y tiempos de entrega.
+            </p>
+
+            <div class="contact-list">
+              <a href="tel:+5493815550101">📞 +54 9 381 555 0101</a>
+              <a href="mailto:ventas@obrafuerte.com">✉ ventas@obrafuerte.com</a>
+              <span>📍 San Miguel de Tucumán, Argentina</span>
+              <span>🕒 Lunes a viernes · 8:30 a 18:30</span>
+            </div>
+          </div>
+
+          <aside class="contact-panel">
+            <h3>Canales de atención</h3>
+            <div class="contact-panel__items">
+              <article>
+                <strong>WhatsApp comercial</strong>
+                <p>Consultas de stock, precio, envío y pedidos armados desde el carrito.</p>
+              </article>
+              <article>
+                <strong>Cotización para obra</strong>
+                <p>Podés pedir varios equipos y recibir seguimiento manual del pedido.</p>
+              </article>
+              <article>
+                <strong>Atención a revendedores</strong>
+                <p>Precios especiales para compra recurrente y volumen.</p>
+              </article>
+            </div>
+            <a class="btn btn--primary btn--full" id="contactWhatsappLink" href="#" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__content">
+        <div>
+          <strong>ObraFuerte</strong>
+          <p>Catálogo estático orientado a conversión para venta de herramientas y productos de construcción.</p>
+        </div>
+        <div class="footer__links">
+          <a href="#inicio">Inicio</a>
+          <a href="#catalogo">Productos</a>
+          <a href="#destacados">Destacados</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+      </div>
+    </footer>
+
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Carrito de compras" aria-hidden="true">
+      <div class="cart-drawer__header">
+        <div>
+          <span class="section-kicker">Pedido actual</span>
+          <h3>Tu carrito</h3>
+        </div>
+        <button class="icon-btn" id="closeCart" type="button" aria-label="Cerrar carrito">✕</button>
+      </div>
+
+      <div class="cart-drawer__body" id="cartItems"></div>
+
+      <div class="cart-drawer__footer">
+        <div class="cart-total">
+          <span>Subtotal estimado</span>
+          <strong id="cartSubtotal">$ 0</strong>
+        </div>
+        <div class="cart-actions">
+          <button class="btn btn--text" id="clearCartBtn" type="button">Vaciar carrito</button>
+          <a class="btn btn--primary btn--full" id="checkoutWhatsappBtn" href="#" target="_blank" rel="noopener noreferrer">Finalizar pedido por WhatsApp</a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <button class="floating-whatsapp" id="floatingWhatsapp" type="button" aria-label="Escribir por WhatsApp">
+      <span>💬</span>
+    </button>
+
+    <button class="back-to-top" id="backToTop" type="button" aria-label="Volver arriba">↑</button>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
