@@ -1,430 +1,369 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- =====================================================
-       CABECERA DEL DOCUMENTO
-       Metadatos SEO, configuración del viewport, tipografía
-       y hoja de estilos principal.
-  ===================================================== -->
-
-  <!-- Codificación de caracteres: soporte para tildes y caracteres especiales -->
+  <!-- ============================================================
+       METADATOS Y CONFIGURACIÓN
+       - charset: UTF-8 para tildes y caracteres especiales
+       - viewport: diseño responsive en dispositivos móviles
+       - description: fragmento SEO visible en buscadores
+  ============================================================ -->
   <meta charset="UTF-8" />
-
-  <!-- Viewport: hace el sitio responsive en dispositivos móviles -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Título de la página: aparece en la pestaña del navegador y en buscadores -->
   <title>ObraFuerte | Herramientas y equipos para obra</title>
+  <meta name="description" content="Catálogo de herramientas, equipos para obra, máquinas y soluciones profesionales. Consultá por WhatsApp." />
 
-  <!-- Descripción meta: fragmento de texto que muestran los motores de búsqueda -->
-  <meta name="description" content="Catálogo estático profesional para venta de taladros, amoladoras, generadores, vibradores de cemento y equipos de construcción con pedido directo por WhatsApp." />
+  <!-- ============================================================
+       TIPOGRAFÍA — Google Fonts (Inter 400–800)
+       Pre-connect reduce el tiempo de carga evitando un round-trip
+       DNS en el momento del fetch de la fuente.
+  ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Color temático: tiñe la barra del navegador en dispositivos móviles (amarillo acento) -->
-  <meta name="theme-color" content="#f59e0b" />
-
-  <!-- Preconexión a Google Fonts para acelerar la carga de la tipografía -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Fuente Inter (pesos 400–800): tipografía principal de todo el sitio -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Hoja de estilos principal del proyecto -->
-  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <!-- ============================================================
+       HOJA DE ESTILOS PRINCIPAL
+       styles.css contiene: reset, variables CSS, layout,
+       componentes (header, hero, cards, drawer) y breakpoints.
+  ============================================================ -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <!-- Contenedor principal del sitio (layout general) -->
-  <div class="site-shell">
 
-    <!-- ==============================================
-         ENCABEZADO / BARRA DE NAVEGACIÓN SUPERIOR
-         Sticky: se queda fija al hacer scroll.
-         Contiene: logo, menú principal y acciones (carrito, cotización).
-    =============================================== -->
-    <header class="topbar">
-      <div class="container topbar__content">
-        <!-- Logo / identidad de marca: enlaza al inicio de la página -->
-        <a href="#inicio" class="brand" aria-label="Ir al inicio">
-          <!-- Símbolo abreviado del logo ("OF" con fondo dorado) -->
-          <span class="brand__mark">OF</span>
-          <!-- Nombre y tagline del negocio -->
-          <span class="brand__text">
-            <strong>ObraFuerte</strong>
-            <small>Herramientas y equipos para obra</small>
-          </span>
-        </a>
-
-        <!-- Menú de navegación principal — en móvil se oculta y abre con el botón hamburguesa -->
-        <nav class="nav" id="mainNav" aria-label="Principal">
-          <a href="#categorias">Categorías</a>
-          <a href="#catalogo">Catálogo</a>
-          <a href="#destacados">Destacados</a>
-          <a href="#beneficios">Por qué elegirnos</a>
-          <a href="#contacto">Contacto</a>
-        </nav>
-
-        <!-- Acciones de la barra superior -->
-        <div class="topbar__actions">
-          <!-- Botón de cotización: solo visible en escritorio -->
-          <a class="btn btn--ghost hide-mobile" href="#contacto">Pedir cotización</a>
-
-          <!-- Botón del carrito: muestra la cantidad de productos agregados -->
-          <button class="cart-toggle" id="cartToggle" type="button" aria-label="Abrir carrito">
-            <span class="cart-toggle__icon">🛒</span>
-            <span>Carrito</span>
-            <!-- Contador dinámico actualizado por JS cuando se agregan productos -->
-            <span class="cart-count" id="cartCount">0</span>
-          </button>
-
-          <!-- Botón hamburguesa: solo visible en móvil, abre el menú de navegación -->
-          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú">
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <!-- ==============================================
-           SECCIÓN HERO — #inicio
-           Primera pantalla del sitio. Presenta la propuesta
-           de valor, CTA principal y estadísticas clave.
-      =============================================== -->
-      <section class="hero" id="inicio">
-        <div class="container hero__grid">
-          <!-- Columna izquierda: texto, CTAs y estadísticas -->
-          <div class="hero__content">
-            <!-- Eyebrow: etiqueta de contexto sobre el título principal -->
-            <span class="eyebrow">Stock para obra, taller e industria liviana</span>
-
-            <!-- Título principal H1: único en la página, optimizado para SEO -->
-            <h1>Herramientas que rinden en la obra. Atención rápida y pedido directo por WhatsApp.</h1>
-
-            <!-- Párrafo descriptivo: amplía la propuesta de valor -->
-            <p>
-              Encontrá taladros, amoladoras, generadores, vibradores de cemento y equipos clave para trabajar sin perder tiempo.
-              Buscá por categoría, filtrá en segundos y armá tu pedido desde el carrito.
-            </p>
-
-            <!-- CTAs del hero: acciones principales que se ofrecen al usuario -->
-            <div class="hero__actions">
-              <a class="btn btn--primary" href="#catalogo">Ver catálogo</a>
-              <a class="btn btn--secondary" href="#destacados">Ver destacados</a>
-              <!-- Enlace a WhatsApp: la URL es generada dinámicamente por JS (applyWhatsappLinks) -->
-              <a class="btn btn--ghost-dark" id="heroWhatsappLink" href="#" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
-            </div>
-
-            <!-- Indicadores de confianza: métricas clave del negocio -->
-            <div class="hero__stats" aria-label="Indicadores destacados">
-              <article>
-                <strong>+180</strong>
-                <span>Productos activos</span>
-              </article>
-              <article>
-                <strong>24 hs</strong>
-                <span>Respuesta comercial</span>
-              </article>
-              <article>
-                <strong>Mayorista</strong>
-                <span>Precios por volumen</span>
-              </article>
-            </div>
-          </div>
-
-          <!-- Columna derecha: tarjetas decorativas de producto (aria-hidden: no son contenido relevante) -->
-          <div class="hero__visual" aria-hidden="true">
-            <!-- Tarjeta principal: kit destacado con fondo oscuro -->
-            <div class="hero-card hero-card--primary">
-              <span class="hero-card__label">Más consultados</span>
-              <h2>Kit profesional para obra chica y mediana</h2>
-              <ul>
-                <li>Taladro percutor 850W</li>
-                <li>Amoladora angular 115 mm</li>
-                <li>Generador monofásico 3.5 kVA</li>
-              </ul>
-            </div>
-            <!-- Tarjeta secundaria: mensaje de beneficio / urgencia -->
-            <div class="hero-card hero-card--secondary">
-              <span class="tag tag--highlight">Entrega rápida</span>
-              <p>Armá el pedido, enviá el mensaje y seguí la cotización por WhatsApp sin formularios largos.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ==============================================
-           FRANJA DE CONFIANZA
-           Banda visual con palabras clave del negocio.
-           Refuerza credibilidad entre el hero y las categorías.
-      =============================================== -->
-      <section class="trust-strip">
-        <div class="container trust-strip__grid">
-          <span>Equipos para construcción</span>
-          <span>Ferretería técnica</span>
-          <span>Atención a profesionales</span>
-          <span>Reposición rápida</span>
-          <span>Cotización directa</span>
-        </div>
-      </section>
-
-      <!-- ==============================================
-           SECCIÓN CATEGORÍAS — #categorias
-           Grilla de tarjetas por tipo de producto.
-           JS (renderCategories) genera e inyecta las tarjetas.
-           Al hacer click en una tarjeta, filtra el catálogo y
-           desplaza la vista hacia #catalogo.
-      =============================================== -->
-      <section class="section" id="categorias">
-        <div class="container">
-          <!-- Encabezado de sección: kicker + título + descripción -->
-          <div class="section-heading">
-            <div>
-              <span class="section-kicker">Compra más rápido</span>
-              <h2>Categorías pensadas para encontrar lo que necesitás sin vueltas</h2>
-            </div>
-            <p>Elegí una línea de producto y filtrá el catálogo al instante. Ideal para clientes que ya saben qué equipo buscan.</p>
-          </div>
-
-          <!-- Contenedor de la grilla de categorías: llenado dinámicamente por JS -->
-          <div class="category-grid" id="categoryGrid"></div>
-        </div>
-      </section>
-
-      <!-- ==============================================
-           SECCIÓN CATÁLOGO — #catalogo
-           Lista filtrable y buscable de todos los productos.
-           JS (renderProducts / renderFilterPills) inyecta el contenido.
-      =============================================== -->
-      <section class="section section--catalog" id="catalogo">
-        <div class="container">
-          <div class="section-heading section-heading--tight">
-            <div>
-              <span class="section-kicker">Catálogo comercial</span>
-              <h2>Herramientas y equipos listos para cotizar</h2>
-            </div>
-            <p>Buscá por nombre, filtrá por categoría y agregá al carrito lo que querés consultar o comprar.</p>
-          </div>
-
-          <!-- Barra de herramientas del catálogo: búsqueda + filtros + resumen -->
-          <div class="catalog-toolbar">
-            <!-- Campo de búsqueda en tiempo real: escucha el evento "input" en JS -->
-            <div class="search-field">
-              <!-- Label oculto visualmente (sr-only) pero accesible para lectores de pantalla -->
-              <label for="searchInput" class="sr-only">Buscar producto</label>
-              <input type="search" id="searchInput" placeholder="Buscar por ejemplo: taladro, generador, soldadora..." />
-            </div>
-
-            <!-- Pills de categoría: generadas por JS (renderFilterPills) -->
-            <div class="filter-pills" id="filterPills"></div>
-
-            <!-- Resumen de resultados y botón para limpiar filtros activos -->
-            <div class="catalog-summary">
-              <span id="resultsSummary">0 productos</span>
-              <button class="btn btn--text" id="clearFiltersBtn" type="button">Limpiar filtros</button>
-            </div>
-          </div>
-
-          <!-- Grilla de tarjetas de producto: llenada por JS (renderProducts) -->
-          <div class="product-grid" id="productGrid"></div>
-
-          <!-- Estado vacío: se muestra cuando ningún producto coincide con la búsqueda/filtro -->
-          <div class="empty-state hidden" id="emptyState">
-            <h3>No encontramos productos con ese criterio</h3>
-            <p>Probá con otra búsqueda o quitá el filtro actual para volver a ver todo el catálogo.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ==============================================
-           SECCIÓN DESTACADOS — #destacados
-           Fondo oscuro. Muestra los productos con featured:true
-           (hasta 4). JS (renderFeatured) inyecta las tarjetas.
-      =============================================== -->
-      <section class="section section--dark" id="destacados">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <span class="section-kicker">Productos destacados</span>
-              <h2>Equipos elegidos por constructoras, contratistas y talleres</h2>
-            </div>
-            <p>Selección comercial con alta salida, buena relación costo-rendimiento y disponibilidad frecuente.</p>
-          </div>
-
-          <!-- Grilla de productos destacados: llenada por JS (renderFeatured) -->
-          <div class="featured-grid" id="featuredGrid"></div>
-        </div>
-      </section>
-
-      <!-- ==============================================
-           SECCIÓN BENEFICIOS — #beneficios
-           Cuatro tarjetas que explican el diferencial del sitio.
-           La clase "reveal" activa la animación de entrada al hacer scroll
-           (gestionada por JS con IntersectionObserver).
-      =============================================== -->
-      <section class="section" id="beneficios">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <span class="section-kicker">Confianza comercial</span>
-              <h2>Una web simple para comprar mejor, sin perder el trato humano</h2>
-            </div>
-            <p>El objetivo no es complicar la compra: es mostrar bien el producto, acelerar la selección y cerrar la consulta por WhatsApp.</p>
-          </div>
-
-          <!-- Grilla de beneficios: 4 tarjetas estáticas con numeración -->
-          <div class="benefits-grid">
-            <!-- Beneficio 01: búsqueda y organización por categorías -->
-            <article class="benefit-card reveal">
-              <span>01</span>
-              <h3>Catálogo ordenado</h3>
-              <p>Productos organizados por categoría con búsqueda rápida para reducir tiempo de consulta.</p>
-            </article>
-            <!-- Beneficio 02: generación automática del mensaje de pedido -->
-            <article class="benefit-card reveal">
-              <span>02</span>
-              <h3>Pedido directo</h3>
-              <p>El carrito genera el mensaje automáticamente para que el cliente envíe el detalle exacto por WhatsApp.</p>
-            </article>
-            <!-- Beneficio 03: diseño adaptado a uso móvil -->
-            <article class="benefit-card reveal">
-              <span>03</span>
-              <h3>Diseño responsive real</h3>
-              <p>La experiencia está pensada para celulares, que es donde más se consulta este tipo de productos.</p>
-            </article>
-            <!-- Beneficio 04: catálogo mantenible solo desde JS sin tocar el HTML -->
-            <article class="benefit-card reveal">
-              <span>04</span>
-              <h3>Escalable</h3>
-              <p>Los productos y categorías salen de JavaScript, así podés mantener el catálogo sin tocar todo el HTML.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- ==============================================
-           SECCIÓN CONTACTO — #contacto
-           Dos columnas: datos de contacto (izquierda) y
-           panel de canales de atención (derecha).
-      =============================================== -->
-      <section class="section section--contact" id="contacto">
-        <div class="container contact-grid">
-          <!-- Columna izquierda: información de contacto del negocio -->
-          <div class="contact-copy">
-            <span class="section-kicker">Contacto comercial</span>
-            <h2>¿Necesitás cotización rápida o compra por volumen?</h2>
-            <p>
-              Atendemos consultas de particulares, contratistas y empresas. Podés usar el catálogo, armar el carrito y enviarnos el pedido,
-              o escribirnos directamente para stock, precio mayorista y tiempos de entrega.
-            </p>
-
-            <!-- Lista de datos de contacto: teléfono, mail, ubicación y horario -->
-            <div class="contact-list">
-              <a href="tel:+5493815550101">📞 +54 9 381 555 0101</a>
-              <a href="mailto:ventas@obrafuerte.com">✉ ventas@obrafuerte.com</a>
-              <span>📍 San Miguel de Tucumán, Argentina</span>
-              <span>🕒 Lunes a viernes · 8:30 a 18:30</span>
-            </div>
-          </div>
-
-          <!-- Columna derecha: panel con canales disponibles y CTA de WhatsApp -->
-          <aside class="contact-panel">
-            <h3>Canales de atención</h3>
-            <div class="contact-panel__items">
-              <article>
-                <strong>WhatsApp comercial</strong>
-                <p>Consultas de stock, precio, envío y pedidos armados desde el carrito.</p>
-              </article>
-              <article>
-                <strong>Cotización para obra</strong>
-                <p>Podés pedir varios equipos y recibir seguimiento manual del pedido.</p>
-              </article>
-              <article>
-                <strong>Atención a revendedores</strong>
-                <p>Precios especiales para compra recurrente y volumen.</p>
-              </article>
-            </div>
-            <!-- Botón de WhatsApp: URL generada dinámicamente por JS (applyWhatsappLinks) -->
-            <a class="btn btn--primary btn--full" id="contactWhatsappLink" href="#" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
-          </aside>
-        </div>
-      </section>
-    </main>
-
-    <!-- ==============================================
-         PIE DE PÁGINA
-         Breve descripción del sitio y enlaces de navegación rápida.
-    =============================================== -->
-    <footer class="footer">
-      <div class="container footer__content">
-        <!-- Identidad y descripción breve del sitio -->
-        <div>
-          <strong>ObraFuerte</strong>
-          <p>Catálogo estático orientado a conversión para venta de herramientas y productos de construcción.</p>
-        </div>
-        <!-- Navegación secundaria: accesos directos a secciones principales -->
-        <div class="footer__links">
-          <a href="#inicio">Inicio</a>
-          <a href="#catalogo">Productos</a>
-          <a href="#destacados">Destacados</a>
-          <a href="#contacto">Contacto</a>
-        </div>
-      </div>
-    </footer>
-
-    <!-- ==============================================
-         DRAWER DEL CARRITO
-         Panel lateral deslizante que se abre desde la derecha.
-         Su contenido (#cartItems, subtotal, CTA) se actualiza
-         dinámicamente por JS (renderCart) cada vez que el usuario
-         agrega, elimina o modifica cantidades.
-         aria-hidden se alterna en JS al abrir/cerrar.
-    =============================================== -->
-    <aside class="cart-drawer" id="cartDrawer" aria-label="Carrito de compras" aria-hidden="true">
-      <!-- Encabezado del drawer con botón de cierre -->
-      <div class="cart-drawer__header">
-        <div>
-          <span class="section-kicker">Pedido actual</span>
-          <h3>Tu carrito</h3>
-        </div>
-        <button class="icon-btn" id="closeCart" type="button" aria-label="Cerrar carrito">✕</button>
-      </div>
-
-      <!-- Cuerpo: lista de productos en el carrito, generada por JS -->
-      <div class="cart-drawer__body" id="cartItems"></div>
-
-      <!-- Pie del drawer: subtotal y acciones finales -->
-      <div class="cart-drawer__footer">
-        <!-- Subtotal calculado por JS (getCartSubtotal + formatCurrency) -->
-        <div class="cart-total">
-          <span>Subtotal estimado</span>
-          <strong id="cartSubtotal">$ 0</strong>
-        </div>
-        <div class="cart-actions">
-          <!-- Vaciar carrito: limpia el array cart[] y actualiza localStorage -->
-          <button class="btn btn--text" id="clearCartBtn" type="button">Vaciar carrito</button>
-          <!-- Checkout: genera el mensaje de WhatsApp con el detalle del pedido (buildWhatsappLink) -->
-          <a class="btn btn--primary btn--full" id="checkoutWhatsappBtn" href="#" target="_blank" rel="noopener noreferrer">Finalizar pedido por WhatsApp</a>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Overlay oscuro de fondo: se muestra al abrir el carrito o el menú móvil.
-         Al hacer click sobre él, cierra el drawer o el menú. -->
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Botón flotante de WhatsApp: siempre visible, abre el chat directo -->
-    <button class="floating-whatsapp" id="floatingWhatsapp" type="button" aria-label="Escribir por WhatsApp">
-      <span>💬</span>
-    </button>
-
-    <!-- Botón "volver arriba": aparece al hacer scroll hacia abajo (updateBackToTop en JS) -->
-    <button class="back-to-top" id="backToTop" type="button" aria-label="Volver arriba">↑</button>
-
-    <!-- Toast de notificación: mensaje temporal que aparece al agregar/eliminar productos -->
-    <div class="toast" id="toast"></div>
+  <!-- ============================================================
+       TOPBAR — Banda informativa superior
+       Mensaje de propuesta de valor + enlace directo a WhatsApp.
+       Renderizado antes del header para aparecer en la parte más alta.
+  ============================================================ -->
+  <div class="topbar">
+    <div class="container topbar__content">
+      <span>Envíos y asesoramiento para tu obra</span>
+      <a href="https://wa.me/5493815035162?text=Hola,%20quiero%20consultar%20por%20productos%20de%20ObraFuerte" target="_blank" rel="noopener noreferrer">
+        Consultar por WhatsApp
+      </a>
+    </div>
   </div>
 
-  <!-- Script principal: cargado al final del body para no bloquear el renderizado del HTML -->
-  <script src="/assets/js/script.js"></script>
+  <!-- ============================================================
+       HEADER — Barra de navegación sticky
+       Permanece fija al hacer scroll (position: sticky en CSS).
+       Contiene: logo, navegación principal, CTA y botón de carrito.
+       El badge #cartCount es actualizado por carrito.js → renderCart().
+  ============================================================ -->
+<header class="header">
+  <div class="container header__content">
+
+    <!-- LOGO -->
+    <a href="#inicio" class="brand">
+      <img src="assets/img/LogoDP.png" alt="ObraFuerte" class="brand__logo">
+    </a>
+
+    <!-- BUSCADOR: id="headerSearch" conectado a bindHeaderSearch() en app.js.
+        El div.header__search-wrap contiene el input y el dropdown de resultados. -->
+    <div class="header__search">
+      <div class="header__search-wrap">
+        <svg class="header__search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input
+          type="search"
+          id="headerSearch"
+          placeholder="Buscar productos..."
+          autocomplete="off"
+          aria-label="Buscar productos en el catálogo"
+        />
+        <!-- Resultados en vivo: inyectados por bindHeaderSearch() en app.js -->
+        <div class="header__search-results" id="headerSearchResults" hidden></div>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <!-- CARRITO: id="cartToggle" requerido por carrito.js → bindCartEvents() -->
+    <button class="cart-toggle" id="cartToggle" type="button" aria-label="Abrir carrito">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      Carrito
+      <span class="cart-badge" id="cartCount" hidden>0</span>
+    </button>
+
+  </div>
+</header>
+
+  <main>
+
+    <!-- ============================================================
+        SECCIÓN HERO — #inicio
+        Primera pantalla visible. Presenta la propuesta de valor
+        principal. La tarjeta lateral muestra estadísticas en vivo
+        actualizadas por app.js → renderHeroStats() al cargar el JSON.
+    ============================================================ -->
+    <section class="hero" id="inicio">
+      <div class="container hero__grid">
+
+        <!-- Columna izquierda: texto + CTAs -->
+        <div class="hero__content">
+          <span class="eyebrow">Catálogo profesional</span>
+          <h1>Herramientas y equipos pensados para obra, taller y trabajo intensivo.</h1>
+          <p>
+            Encontrá amoladoras, taladros, compresores, generadores, soldadoras y mucho más.
+            Filtrá por categoría y consultá cada producto por WhatsApp.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#catalogo">Explorar catálogo</a>
+            <a class="btn btn--ghost" href="https://wa.me/5493815035162?text=Hola,%20quiero%20asesoramiento%20sobre%20herramientas%20y%20equipos" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Columna derecha: tarjeta de estadísticas en vivo.
+        #heroProductCount y #heroCategoryCount son inyectados
+        por app.js → renderHeroStats() tras cargar el JSON. -->
+        <aside class="hero__card">
+          <div class="hero__stat">
+            <strong id="heroProductCount">0</strong>
+            <span>productos cargados</span>
+          </div>
+          <div class="hero__stat">
+            <strong id="heroCategoryCount">0</strong>
+            <span>categorías activas</span>
+          </div>
+          <div class="hero__note">
+            Catálogo integrado en un solo <code>index.html</code> con archivos separados de CSS, JS y JSON.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================================================
+        SECCIÓN CATEGORÍAS — #categorias
+          Barra horizontal de filtros. #categoryNav es generado
+          por app.js → renderCategoriesNav(). Al clicar una categoría:
+          1. Actualiza state.activeCategory
+          2. Re-renderiza la barra (.active se mueve)
+          3. Filtra la grilla del catálogo
+          4. Hace scroll suave a #catalogo
+    ============================================================ -->
+    <section class="section categorias-nav" id="categorias">
+      <div class="container">
+
+        <!-- Los <span class="categoria-link"> son inyectados por app.js -->
+        <div class="categorias-bar" id="categoryNav">
+          <!-- Generado dinámicamente por renderCategoriesNav() -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN CATÁLOGO — #catalogo
+         Grilla filtrable de productos.
+         - #searchInput: búsqueda en tiempo real (app.js → bindEvents)
+         - #categorySelect: filtro por categoría (app.js → renderCategorySelect)
+         - #productGrid: tarjetas generadas por app.js → renderProducts()
+    ============================================================ -->
+    <section class="section section--catalog" id="catalogo">
+      <div class="container">
+
+        <!-- Encabezado de sección -->
+        <div class="section__head">
+          <div>
+            <span class="section__eyebrow">Catálogo completo</span>
+            <h2>Buscá, filtrá y consultá productos</h2>
+          </div>
+          <p>Podés buscar por nombre, marca, código o categoría.</p>
+        </div>
+
+        <!-- Toolbar: campo de búsqueda + select de categoría -->
+        <div class="catalog-toolbar">
+
+          <!-- Búsqueda: label .sr-only para lectores de pantalla -->
+          <div class="catalog-toolbar__search">
+            <label class="sr-only" for="searchInput">Buscar productos</label>
+            <input type="search" id="searchInput" placeholder="Buscar productos..." />
+          </div>
+
+          <!-- Filtro por categoría: opciones inyectadas por renderCategorySelect() -->
+          <div class="catalog-toolbar__filters">
+            <label class="sr-only" for="categorySelect">Filtrar por categoría</label>
+            <select id="categorySelect">
+              <option value="Todas">Todas las categorías</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Grilla de tarjetas: inyectada por renderProducts() -->
+        <div class="product-grid" id="productGrid"></div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN CONTACTO — #contacto
+         Bloque de conversión final. CTA con mensaje pre-cargado
+         en la URL de WhatsApp para facilitar el inicio del chat.
+    ============================================================ -->
+    <section class="section section--contact" id="contacto">
+      <div class="container contact-box">
+        <div>
+          <span class="section__eyebrow">Contacto</span>
+          <h2>¿Querés una cotización o asesoramiento?</h2>
+          <p>Escribinos y te ayudamos a encontrar la herramienta correcta para tu trabajo.</p>
+        </div>
+        <!-- Enlace a WhatsApp con texto pre-codificado en la URL -->
+        <a class="btn btn--primary" id="contactWhatsappLink" href="https://wa.me/5493815035162?text=Hola,%20quiero%20consultar%20por%20productos%20de%20ObraFuerte" target="_blank" rel="noopener noreferrer">
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+  
+  <!-- ============================================================
+      DRAWER DEL CARRITO — Panel lateral deslizante
+      Se abre desde la derecha al hacer click en el botón del header.
+      Controlado enteramente por carrito.js:
+        - openCartDrawer()  → agrega .is-open al drawer y al overlay
+        - closeCartDrawer() → remueve .is-open y restaura el scroll
+      Estructura:
+        - Header: eyebrow + título + botón cerrar (#cartClose)
+        - #cartItems: lista inyectada por renderCart()
+        - Footer: total (#cartTotal) + vaciar + enviar por WhatsApp
+  ============================================================ -->
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Carrito de compras" aria-hidden="true">
+
+    <!-- Encabezado del drawer con degradado oscuro (ver styles.css) -->
+    <div class="cart-drawer__header">
+      <div>
+        <span class="section__eyebrow">Carrito</span>
+        <h3>Tu pedido</h3>
+      </div>
+      <!-- Botón de cierre: llama a closeCartDrawer() vía bindCartEvents() -->
+      <button class="cart-drawer__close" id="cartClose" type="button" aria-label="Cerrar carrito">✕</button>
+    </div>
+
+    <!-- Lista de ítems del carrito: inyectada por renderCart() en carrito.js -->
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Todavía no agregaste productos.</p>
+    </div>
+
+    <!-- Footer: total estimado y acciones finales -->
+    <div class="cart-summary">
+      <div class="cart-summary__row">
+        <span>Total</span>
+        <!-- #cartTotal: actualizado por renderCart() con cartCurrencyFormatter -->
+        <strong id="cartTotal">$ 0</strong>
+      </div>
+      <div class="cart-summary__actions">
+        <!-- Vaciar carrito: dispara clearCart() en carrito.js -->
+        <button class="btn btn--ghost-dark" id="clearCartBtn" type="button">Vaciar carrito</button>
+        <!-- href generado dinámicamente por buildWhatsappCartMessage() -->
+        <a class="btn btn--primary" id="cartWhatsappLink" href="#" target="_blank" rel="noopener noreferrer">
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Overlay oscuro detrás del drawer: al hacer click, cierra el panel -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+
+  <!-- ============================================================
+      FOOTER — Pie de página
+      Grilla de 4 columnas: marca, categorías, información y contacto.
+  ============================================================ -->
+<footer class="footer">
+  <div class="container footer__grid">
+
+    <!-- Columna 1: Identidad de marca y CTA WhatsApp -->
+    <div class="footer__brand">
+       <a href="#inicio" class="brand">
+      <img src="assets/img/LogoDP.png" alt="ObraFuerte" class="brand__logo">
+    </a>
+      <p>
+        Herramientas y equipos para obra, industria y uso profesional.
+        Asesoramiento personalizado y atención directa por WhatsApp.
+      </p>
+
+      <a 
+        href="https://wa.me/5493815035162?text=Hola,%20quiero%20consultar%20por%20productos"
+        class="footer__whatsapp"
+        target="_blank"
+      >
+        Consultar por WhatsApp
+      </a>
+    </div>
+
+    <!-- Columna 2: Links directos al catálogo por categoría -->
+    <div class="footer__column">
+      <h4>Categorías</h4>
+      <ul>
+        <li><a href="#catalogo">Amoladoras</a></li>
+        <li><a href="#catalogo">Taladros</a></li>
+        <li><a href="#catalogo">Compresores</a></li>
+        <li><a href="#catalogo">Generadores</a></li>
+        <li><a href="#catalogo">Motosierras</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna 3: Información y ayuda -->
+    <div class="footer__column">
+      <h4>Información</h4>
+      <ul>
+        <li><a href="#">Cómo comprar</a></li>
+        <li><a href="#">Formas de pago</a></li>
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Garantía</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna 4: Datos de contacto directo -->
+    <div class="footer__column">
+      <h4>Contacto</h4>
+      <ul class="footer__contact">
+        <li>📍 Tucumán, Argentina</li>
+        <li>📞 381-5035162</li>
+        <li>✉ info@lapasystems.com</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Franja inferior: copyright -->
+  <div class="footer__bottom">
+    <p>© 2026 ObraFuerte - Todos los derechos reservados</p>
+  </div>
+</footer>
+
+  <!-- WhatsApp Flotante -->
+  <a href="https://wa.me/5493865559842?text=Hola%2C%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios"
+  class="whatsapp-float"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Contactar por WhatsApp">
+
+  <svg viewBox="0 0 24 24" class="whatsapp-icon" aria-hidden="true">
+    <path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.17 1.6 6L0 24l6.15-1.58A11.95 11.95 0 0012 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/>
+    <path fill="#fff" d="M17.47 14.38c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.19-1.35-.81-.72-1.36-1.61-1.52-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.47.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.47-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.47.07-.72.34-.25.27-.95.93-.95 2.27s.98 2.64 1.11 2.82c.14.18 1.93 2.95 4.68 4.13.66.29 1.18.46 1.58.59.66.21 1.26.18 1.74.11.53-.08 1.6-.65 1.83-1.27.23-.62.23-1.15.16-1.27-.07-.12-.25-.18-.52-.32z"/>
+  </svg>
+
+</a>
+  <!-- ============================================================
+       SCRIPTS — Cargados al final del <body>
+       Orden obligatorio:
+         1. carrito.js: define carritoState, addToCart, renderCart, etc.
+         2. app.js: usa carritoState (definido en carrito.js) para
+            saber si un producto ya está en el carrito al renderizar
+            cada tarjeta en createProductCard().
+  ============================================================ -->
+  <script src="assets/js/carrito.js"></script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
