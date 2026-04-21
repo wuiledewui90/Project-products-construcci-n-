@@ -1,10 +1,24 @@
 // ==============================
 // Configuración base
+// Número de WhatsApp al que se envía el pedido.
+// Formato internacional sin + ni espacios.
 // ==============================
 const WHATSAPP_NUMBER = "5493815550101";
 
 // ==============================
 // Datos del catálogo
+// Array de objetos que representa cada producto disponible.
+// Propiedades:
+//   id          → identificador único usado en el carrito
+//   name        → nombre visible del producto
+//   category    → nombre de la categoría (debe coincidir con categoryMeta)
+//   price       → precio en pesos argentinos (ARS)
+//   description → texto breve que se muestra en la tarjeta
+//   stock       → "Disponible" | "Últimas unidades"
+//   badge       → etiqueta de destacado en la imagen
+//   badgeType   → "top" | "sale" | "new" (controla el color del badge)
+//   featured    → true: aparece en la sección Destacados
+//   image       → SVG generado dinámicamente por createProductImage()
 // ==============================
 const products = [
   {
@@ -153,6 +167,8 @@ const products = [
   }
 ];
 
+// Metadatos por categoría: icono emoji y descripción breve.
+// Se usan en las tarjetas de la sección Categorías (renderCategories).
 const categoryMeta = {
   "Taladros": { icon: "🔩", copy: "Percutores, atornilladores y equipos para instalación." },
   "Amoladoras": { icon: "⚙️", copy: "Corte y desbaste para metal, obra y terminaciones." },
@@ -167,7 +183,11 @@ const categoryMeta = {
 };
 
 // ==============================
-// Estado
+// Estado de la aplicación
+// Variables globales que controlan qué muestra el catálogo en cada momento.
+//   cart           → array de {id, quantity}, persistido en localStorage
+//   activeCategory → categoría activa para el filtro ("Todos" = sin filtro)
+//   searchTerm     → texto de búsqueda actual (en minúsculas)
 // ==============================
 let cart = loadCart();
 let activeCategory = "Todos";
@@ -175,6 +195,8 @@ let searchTerm = "";
 
 // ==============================
 // Referencias DOM
+// Caché de nodos del DOM para evitar múltiples querySelector durante la ejecución.
+// Se inicializan al cargar el script (antes del DOMContentLoaded en algunos casos).
 // ==============================
 const productGrid = document.getElementById("productGrid");
 const featuredGrid = document.getElementById("featuredGrid");
@@ -204,6 +226,15 @@ const contactWhatsappLink = document.getElementById("contactWhatsappLink");
 
 // ==============================
 // Inicio
+// Punto de entrada de la aplicación.
+// Se ejecuta cuando el HTML está completamente parseado (DOMContentLoaded).
+// Orden de inicialización:
+//   1. Render de categorías y filtros
+//   2. Render del catálogo y destacados
+//   3. Render del carrito (desde localStorage)
+//   4. Aplicación de links de WhatsApp
+//   5. Registro de eventos
+//   6. Animaciones de reveal y estado del header
 // ==============================
 document.addEventListener("DOMContentLoaded", () => {
   renderCategories();
@@ -217,6 +248,12 @@ document.addEventListener("DOMContentLoaded", () => {
   updateStickyState();
 });
 
+/**
+ * setupEvents
+ * Registra todos los event listeners de la aplicación.
+ * Se llama una sola vez desde DOMContentLoaded.
+ * Cubre: búsqueda, filtros, carrito, menú móvil, WhatsApp, scroll.
+ */
 function setupEvents() {
   searchInput.addEventListener("input", (event) => {
     searchTerm = event.target.value.trim().toLowerCase();
@@ -272,6 +309,15 @@ function setupEvents() {
   });
 }
 
+/**
+ * renderCategories
+ * Genera e inyecta en #categoryGrid las tarjetas de categoría.
+ * Cada tarjeta es un <button> que al hacer click:
+ *   - actualiza activeCategory
+ *   - re-renderiza los filter pills
+ *   - re-renderiza el catálogo
+ *   - hace scroll suave hacia #catalogo
+ */
 function renderCategories() {
   const categories = getCategories();
 
@@ -301,6 +347,12 @@ function renderCategories() {
   });
 }
 
+/**
+ * renderFilterPills
+ * Genera e inyecta en #filterPills las pills de filtro por categoría.
+ * La pill activa recibe la clase CSS "is-active".
+ * Al hacer click en una pill: actualiza activeCategory y re-renderiza productos.
+ */
 function renderFilterPills() {
   filterPills.innerHTML = getCategories()
     .map((category) => `
@@ -323,6 +375,14 @@ function renderFilterPills() {
   });
 }
 
+/**
+ * renderProducts
+ * Filtra el array products según activeCategory y searchTerm,
+ * actualiza el contador de resultados (#resultsSummary),
+ * muestra u oculta el estado vacío (#emptyState) y
+ * vuelca las tarjetas generadas por createProductCard en #productGrid.
+ * También activa los botones "Agregar" y las animaciones reveal.
+ */
 function renderProducts() {
   const filteredProducts = getFilteredProducts();
   resultsSummary.textContent = `${filteredProducts.length} producto${filteredProducts.length === 1 ? "" : "s"}`;
@@ -336,6 +396,12 @@ function renderProducts() {
   observeReveals();
 }
 
+/**
+ * renderFeatured
+ * Filtra los productos con featured:true, toma hasta 4 y los
+ * inyecta en #featuredGrid usando createProductCard.
+ * Se llama una sola vez en el init (los destacados no cambian con filtros).
+ */
 function renderFeatured() {
   featuredGrid.innerHTML = products
     .filter((product) => product.featured)
@@ -346,6 +412,13 @@ function renderFeatured() {
   bindAddToCartButtons();
 }
 
+/**
+ * createProductCard
+ * Genera el HTML de una tarjeta de producto como string.
+ * @param {Object} product - Objeto del array products.
+ * @param {boolean} compact - Reservado para variante compacta (no implementada aún).
+ * @returns {string} HTML de la tarjeta <article>.
+ */
 function createProductCard(product, compact = false) {
   return `
     <article class="product-card reveal">
@@ -376,6 +449,13 @@ function createProductCard(product, compact = false) {
   `;
 }
 
+/**
+ * bindAddToCartButtons
+ * Agrega el listener "click" a todos los botones .add-to-cart-btn
+ * presentes en el DOM en ese momento.
+ * Se llama después de cada renderProducts / renderFeatured
+ * porque el innerHTML se reemplaza (los listeners viejos se pierden).
+ */
 function bindAddToCartButtons() {
   document.querySelectorAll(".add-to-cart-btn").forEach((button) => {
     button.addEventListener("click", () => {
@@ -385,6 +465,13 @@ function bindAddToCartButtons() {
   });
 }
 
+/**
+ * getFilteredProducts
+ * Devuelve el subconjunto de products que cumple:
+ *   - activeCategory === "Todos" O product.category === activeCategory
+ *   - searchTerm vacío O coincide en name, category o description (case-insensitive)
+ * @returns {Array} Productos filtrados.
+ */
 function getFilteredProducts() {
   return products.filter((product) => {
     const matchesCategory = activeCategory === "Todos" || product.category === activeCategory;
@@ -398,13 +485,29 @@ function getFilteredProducts() {
   });
 }
 
+/**
+ * getCategories
+ * Devuelve un array con "Todos" seguido de los nombres únicos de categoría
+ * extraídos del array products (en el orden en que aparecen).
+ * @returns {string[]} Lista de categorías.
+ */
 function getCategories() {
   return ["Todos", ...new Set(products.map((product) => product.category))];
 }
 
 // ==============================
 // Carrito
+// Lógica de gestión del carrito de compras.
+// El estado se guarda en el array `cart` (en memoria) y se
+// sincroniza con localStorage en cada modificación (persistCart).
 // ==============================
+
+/**
+ * addToCart
+ * Agrega un producto al carrito o incrementa su cantidad si ya existe.
+ * Luego persiste, re-renderiza el carrito y muestra el toast de confirmación.
+ * @param {number} productId - ID del producto a agregar.
+ */
 function addToCart(productId) {
   const existing = cart.find((item) => item.id === productId);
 
@@ -419,6 +522,12 @@ function addToCart(productId) {
   showToast("Producto agregado al carrito.");
 }
 
+/**
+ * renderCart
+ * Actualiza el badge del carrito (#cartCount), genera el HTML de los
+ * items en #cartItems con sus controles de cantidad, calcula el subtotal
+ * y actualiza el href del botón de checkout con el mensaje de WhatsApp.
+ */
 function renderCart() {
   cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -473,6 +582,13 @@ function renderCart() {
   });
 }
 
+/**
+ * updateQuantity
+ * Modifica la cantidad de un item en el carrito.
+ * Si la cantidad llega a 0 o menos, elimina el item del array.
+ * @param {number} productId - ID del producto.
+ * @param {number} delta    - Cambio de cantidad (+1 o -1).
+ */
 function updateQuantity(productId, delta) {
   const item = cart.find((entry) => entry.id === productId);
   if (!item) return;
@@ -487,6 +603,11 @@ function updateQuantity(productId, delta) {
   renderCart();
 }
 
+/**
+ * removeFromCart
+ * Elimina completamente un producto del carrito (sin importar la cantidad).
+ * @param {number} productId - ID del producto a eliminar.
+ */
 function removeFromCart(productId) {
   cart = cart.filter((item) => item.id !== productId);
   persistCart();
@@ -494,6 +615,11 @@ function removeFromCart(productId) {
   showToast("Producto eliminado del carrito.");
 }
 
+/**
+ * getCartSubtotal
+ * Calcula el total del carrito sumando precio * cantidad de cada item.
+ * @returns {number} Subtotal en ARS.
+ */
 function getCartSubtotal() {
   return cart.reduce((sum, item) => {
     const product = products.find((entry) => entry.id === item.id);
@@ -501,10 +627,21 @@ function getCartSubtotal() {
   }, 0);
 }
 
+/**
+ * persistCart
+ * Guarda el array `cart` serializado como JSON en localStorage
+ * bajo la clave "obrafuerte-cart".
+ */
 function persistCart() {
   localStorage.setItem("obrafuerte-cart", JSON.stringify(cart));
 }
 
+/**
+ * loadCart
+ * Lee y parsea el carrito guardado en localStorage.
+ * Si no existe o el JSON es inválido devuelve un array vacío.
+ * @returns {Array} Array de items {id, quantity}.
+ */
 function loadCart() {
   try {
     return JSON.parse(localStorage.getItem("obrafuerte-cart")) || [];
@@ -515,7 +652,19 @@ function loadCart() {
 
 // ==============================
 // WhatsApp
+// Funciones que construyen y aplican los enlaces de WhatsApp
+// con el mensaje de pedido pre-armado.
 // ==============================
+
+/**
+ * buildWhatsappLink
+ * Construye la URL de WhatsApp con el mensaje codificado que incluye:
+ *   - Detalle de cada producto (nombre, cantidad, subtotal)
+ *   - Subtotal estimado total
+ *   - Pregunta de cierre (stock, entrega, precio final)
+ * Si el carrito está vacío, genera un mensaje genérico de asesoramiento.
+ * @returns {string} URL completa de wa.me con el parámetro ?text=...
+ */
 function buildWhatsappLink() {
   const intro = "Hola, quiero consultar por el siguiente pedido:";
 
@@ -537,6 +686,12 @@ function buildWhatsappLink() {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
 }
 
+/**
+ * applyWhatsappLinks
+ * Aplica la URL de WhatsApp generada a todos los botones/enlaces
+ * de WhatsApp del sitio: checkout del drawer, hero y contacto.
+ * Se llama en el init y se recalcula automáticamente en renderCart.
+ */
 function applyWhatsappLinks() {
   const url = buildWhatsappLink();
   checkoutWhatsappBtn.href = url;
@@ -546,24 +701,46 @@ function applyWhatsappLinks() {
 
 // ==============================
 // UI helpers
+// Funciones para manejar la interfaz de usuario:
+// apertura/cierre del carrito y menú móvil, toast de notificaciones,
+// estado sticky del header y botón "volver arriba".
 // ==============================
+
+/**
+ * openCart
+ * Abre el drawer del carrito: agrega clases CSS y actualiza aria-hidden.
+ */
 function openCart() {
   cartDrawer.classList.add("is-open");
   overlay.classList.add("is-visible");
   cartDrawer.setAttribute("aria-hidden", "false");
 }
 
+/**
+ * closeCartDrawer
+ * Cierra el drawer del carrito y el overlay de fondo.
+ */
 function closeCartDrawer() {
   cartDrawer.classList.remove("is-open");
   overlay.classList.remove("is-visible");
   cartDrawer.setAttribute("aria-hidden", "true");
 }
 
+/**
+ * toggleMobileMenu
+ * Alterna la visibilidad del menú de navegación móvil.
+ * Activa/desactiva el overlay de fondo al mismo tiempo.
+ */
 function toggleMobileMenu() {
   mainNav.classList.toggle("is-open");
   overlay.classList.toggle("is-visible", mainNav.classList.contains("is-open"));
 }
 
+/**
+ * closeMobileMenu
+ * Cierra el menú móvil. El overlay solo se oculta si el carrito
+ * también está cerrado (para no ocultar el overlay del carrito).
+ */
 function closeMobileMenu() {
   mainNav.classList.remove("is-open");
   if (!cartDrawer.classList.contains("is-open")) {
@@ -571,6 +748,14 @@ function closeMobileMenu() {
   }
 }
 
+/**
+ * showToast
+ * Muestra un mensaje de notificación temporal en la parte inferior.
+ * Se oculta automáticamente después de 2200 ms.
+ * Usa una propiedad estática (showToast.timeoutId) para cancelar
+ * el timeout anterior si se llama antes de que expire.
+ * @param {string} message - Texto del mensaje a mostrar.
+ */
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("is-visible");
@@ -581,18 +766,42 @@ function showToast(message) {
   }, 2200);
 }
 
+/**
+ * updateStickyState
+ * Agrega o quita la clase .is-scrolled en la topbar según el scroll.
+ * Se llama en el evento "scroll" y en el init (para páginas recargadas con scroll).
+ */
 function updateStickyState() {
   topbar.classList.toggle("is-scrolled", window.scrollY > 12);
 }
 
+/**
+ * updateBackToTop
+ * Muestra u oculta el botón "volver arriba" según si el scroll
+ * supera los 460px desde la parte superior de la página.
+ */
 function updateBackToTop() {
   backToTop.classList.toggle("is-visible", window.scrollY > 460);
 }
 
+/**
+ * setupRevealOnScroll
+ * Inicializa el sistema de animaciones reveal al hacer scroll.
+ * Delegado a observeReveals() para poder reutilizarlo cuando se
+ * renderizan nuevas tarjetas dinámicamente.
+ */
 function setupRevealOnScroll() {
   observeReveals();
 }
 
+/**
+ * observeReveals
+ * Observa con IntersectionObserver todos los elementos .reveal
+ * que aún no tienen la clase .is-visible.
+ * Al entrar en el viewport (threshold 12%), agrega .is-visible
+ * que activa la transición CSS (opacity + translateY).
+ * Si IntersectionObserver no está disponible, muestra todos directamente.
+ */
 function observeReveals() {
   const revealElements = document.querySelectorAll(".reveal:not(.is-visible)");
   if (!("IntersectionObserver" in window)) {
@@ -614,7 +823,16 @@ function observeReveals() {
 
 // ==============================
 // Utilidades
+// Funciones de soporte reutilizadas en todo el módulo.
 // ==============================
+
+/**
+ * formatCurrency
+ * Formatea un número como moneda argentina (ARS) sin decimales.
+ * Ejemplo: 124900 → "$ 124.900"
+ * @param {number} value - Valor numérico a formatear.
+ * @returns {string} Cadena de texto formateada.
+ */
 function formatCurrency(value) {
   return new Intl.NumberFormat("es-AR", {
     style: "currency",
@@ -623,6 +841,16 @@ function formatCurrency(value) {
   }).format(value);
 }
 
+/**
+ * createProductImage
+ * Genera una imagen SVG codificada como data URI para usarla
+ * como src de <img>. Evita dependencia de imágenes externas.
+ * El SVG es una composición geométrica simple con el nombre del producto.
+ * @param {string} label     - Texto (nombre corto) que se muestra en el SVG.
+ * @param {string} primary   - Color primario (hex/rgb) para los elementos destacados.
+ * @param {string} secondary - Color de fondo del SVG.
+ * @returns {string} Data URI con el SVG codificado en UTF-8.
+ */
 function createProductImage(label, primary, secondary) {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" fill="none">

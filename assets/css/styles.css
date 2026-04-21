@@ -1,40 +1,67 @@
 /* =========================
    Base
+   Variables globales (design tokens), reset básico y estilos
+   fundamentales aplicados a todo el documento.
 ========================= */
 :root {
+  /* Fondos oscuros usados en secciones con tema dark -->
   --bg: #0b1220;
   --bg-soft: #121b2d;
+
+  /* Superficies semitransparentes para tarjetas y paneles */
   --panel: rgba(255, 255, 255, 0.06);
   --panel-strong: #111827;
+
+  /* Superficies claras */
   --surface: #ffffff;
   --surface-2: #f3f6fb;
-  --text: #101828;
-  --text-soft: #4b5565;
-  --text-inverse: #eef2f7;
+
+  /* Colores de texto */
+  --text: #101828;          /* Texto principal (oscuro) */
+  --text-soft: #4b5565;     /* Texto secundario / descripciones */
+  --text-inverse: #eef2f7;  /* Texto sobre fondo oscuro */
+
+  /* Separadores y líneas */
   --line: rgba(16, 24, 40, 0.08);
   --line-dark: rgba(255, 255, 255, 0.09);
+
+  /* Color de acento principal (amarillo/dorado ObraFuerte) */
   --accent: #f59e0b;
   --accent-2: #ffcc66;
-  --green: #16a34a;
-  --red: #dc2626;
+
+  /* Colores de estado */
+  --green: #16a34a;  /* Stock disponible / badge sale */
+  --red: #dc2626;    /* Eliminar item del carrito */
+
+  /* Sombras */
   --shadow: 0 12px 40px rgba(2, 8, 23, 0.12);
   --shadow-lg: 0 25px 70px rgba(2, 8, 23, 0.22);
+
+  /* Bordes redondeados */
   --radius: 20px;
   --radius-sm: 14px;
+
+  /* Ancho máximo del contenido centrado */
   --container: 1200px;
+
+  /* Velocidad de transición global para hover / animaciones */
   --transition: 220ms ease;
 }
 
+/* Reset universal: incluye padding/border dentro del tamaño del elemento */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Scroll suave al navegar por anclas (#seccion) */
 html {
   scroll-behavior: smooth;
 }
 
+/* Fondo del sitio: gradiente radial con toque cálido en la esquina superior
+   más un degradado lineal de blanco a gris muy claro hacia abajo */
 body {
   margin: 0;
   font-family: "Inter", system-ui, sans-serif;
@@ -44,33 +71,39 @@ body {
     linear-gradient(180deg, #f8fafc 0%, #eef3f8 100%);
 }
 
+/* Imágenes responsive por defecto */
 img {
   max-width: 100%;
   display: block;
 }
 
+/* Botones, inputs y enlaces heredan la fuente del documento */
 button,
 input,
 a {
   font: inherit;
 }
 
+/* Reset de color y subrayado en enlaces */
 a {
   color: inherit;
   text-decoration: none;
 }
 
+/* Reset del botón nativo del navegador */
 button {
   cursor: pointer;
   border: 0;
   background: none;
 }
 
+/* Contenedor centrado con márgen lateral mínimo de 1rem por lado */
 .container {
   width: min(calc(100% - 2rem), var(--container));
   margin-inline: auto;
 }
 
+/* Oculta visualmente un elemento pero lo mantiene accesible para lectores de pantalla */
 .hidden,
 .sr-only {
   position: absolute !important;
@@ -81,24 +114,29 @@ button {
   white-space: nowrap !important;
 }
 
+/* Espaciado vertical estándar de todas las secciones */
 .section {
   padding: 5.5rem 0;
 }
 
+/* Variante de sección con fondo oscuro (ej: sección Destacados) */
 .section--dark {
   background:
     linear-gradient(180deg, rgba(11, 18, 32, 1) 0%, rgba(18, 27, 45, 1) 100%);
   color: var(--text-inverse);
 }
 
+/* Sección del catálogo: menos padding superior para acercarla al toolbar */
 .section--catalog {
   padding-top: 4rem;
 }
 
+/* Sección de contacto: padding inferior extra para separar del footer */
 .section--contact {
   padding-bottom: 6rem;
 }
 
+/* Encabezado de sección: kicker + h2 a la izquierda, descripción a la derecha */
 .section-heading {
   display: flex;
   justify-content: space-between;
@@ -107,10 +145,12 @@ button {
   margin-bottom: 2.2rem;
 }
 
+/* Variante con menos margen inferior (catálogo) */
 .section-heading--tight {
   margin-bottom: 1.4rem;
 }
 
+/* Título H2 del encabezado: tamaño fluido entre 1.75rem y 2.6rem */
 .section-heading h2 {
   margin: 0.35rem 0 0;
   font-size: clamp(1.75rem, 2vw, 2.6rem);
@@ -118,6 +158,7 @@ button {
   max-width: 780px;
 }
 
+/* Párrafo descriptivo del encabezado: color suavizado y ancho limitado */
 .section-heading p {
   margin: 0;
   max-width: 480px;
@@ -125,10 +166,13 @@ button {
   line-height: 1.65;
 }
 
+/* Versión del párrafo para fondos oscuros */
 .section--dark .section-heading p {
   color: rgba(238, 242, 247, 0.72);
 }
 
+/* Etiqueta pequeña en mayúsculas (kicker / eyebrow) que precede al título.
+   La línea decorativa se agrega con ::before. */
 .section-kicker,
 .eyebrow {
   display: inline-flex;
@@ -141,6 +185,7 @@ button {
   color: #a16207;
 }
 
+/* Línea decorativa horizontal antes del kicker/eyebrow */
 .eyebrow::before,
 .section-kicker::before {
   content: "";
@@ -152,6 +197,9 @@ button {
 
 /* =========================
    Header / nav
+   Barra de navegación sticky superior.
+   Usa glassmorphism (backdrop-filter + fondo semitransparente).
+   Al hacer scroll agrega la clase .is-scrolled para oscurecer el fondo.
 ========================= */
 .topbar {
   position: sticky;
@@ -163,11 +211,13 @@ button {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+/* Estado al hacer scroll: fondo más opaco y sombra visible */
 .topbar.is-scrolled {
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
 }
 
+/* Contenido de la barra: logo | navegación | acciones */
 .topbar__content {
   min-height: 84px;
   display: flex;
@@ -176,6 +226,7 @@ button {
   gap: 1rem;
 }
 
+/* Logo: combinación de símbolo (brand__mark) y texto (brand__text) */
 .brand {
   display: inline-flex;
   align-items: center;
@@ -183,6 +234,7 @@ button {
   flex-shrink: 0;
 }
 
+/* Símbolo del logo: cuadrado dorado con las iniciales "OF" */
 .brand__mark {
   width: 44px;
   height: 44px;
@@ -195,6 +247,7 @@ button {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
 }
 
+/* Contenedor de nombre y tagline en columna */
 .brand__text {
   display: flex;
   flex-direction: column;
@@ -209,12 +262,14 @@ button {
   font-size: 0.78rem;
 }
 
+/* Menú de navegación horizontal en escritorio */
 .nav {
   display: flex;
   align-items: center;
   gap: 1.4rem;
 }
 
+/* Enlace de navegación con subrayado animado al hover */
 .nav a {
   color: #334155;
   font-weight: 600;
@@ -222,6 +277,7 @@ button {
   position: relative;
 }
 
+/* Línea de subrayado dorada, animada con scaleX */
 .nav a::after {
   content: "";
   position: absolute;
@@ -235,17 +291,20 @@ button {
   transition: transform var(--transition);
 }
 
+/* Activa el subrayado en hover y foco visible */
 .nav a:hover::after,
 .nav a:focus-visible::after {
   transform: scaleX(1);
 }
 
+/* Grupo de acciones: botón cotización, carrito y hamburguesa */
 .topbar__actions {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
+/* Botón hamburguesa: oculto en escritorio, visible en móvil */
 .menu-toggle {
   display: none;
   width: 44px;
@@ -256,6 +315,7 @@ button {
   padding: 0.8rem;
 }
 
+/* Tres líneas horizontales del icono hamburguesa */
 .menu-toggle span {
   display: block;
   height: 2px;
@@ -266,7 +326,11 @@ button {
 
 /* =========================
    Buttons / pills / tags
+   Sistema de botones reutilizables con variantes de color,
+   tamaño y estilo. Todos usan border-radius: 999px (pill).
 ========================= */
+
+/* Clase base del botón: flex centrado con transiciones suaves */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -279,32 +343,38 @@ button {
   transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
+/* Ligero elevado al pasar el cursor */
 .btn:hover {
   transform: translateY(-1px);
 }
 
+/* Botón primario: fondo degradado dorado, texto oscuro */
 .btn--primary {
   background: linear-gradient(135deg, #f59e0b, #ffcb65);
   color: #171717;
   box-shadow: 0 12px 24px rgba(245, 158, 11, 0.22);
 }
 
+/* Botón secundario: fondo oscuro con texto blanco */
 .btn--secondary {
   background: #111827;
   color: white;
 }
 
+/* Botón fantasma claro: borde + fondo semi-transparente */
 .btn--ghost {
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.8);
 }
 
+/* Botón fantasma oscuro: para usar sobre fondos oscuros (hero) */
 .btn--ghost-dark {
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* Botón de texto: sin altura fija ni padding, solo color */
 .btn--text {
   min-height: unset;
   padding: 0;
@@ -312,10 +382,12 @@ button {
   font-weight: 700;
 }
 
+/* Botón de ancho completo */
 .btn--full {
   width: 100%;
 }
 
+/* Etiqueta pill pequeña (ej: "Entrega rápida" en el hero) */
 .tag {
   display: inline-flex;
   align-items: center;
@@ -327,11 +399,13 @@ button {
   font-weight: 700;
 }
 
+/* Variante de tag con fondo cálido sobre oscuro */
 .tag--highlight {
   background: rgba(245, 158, 11, 0.14);
   color: #fcd34d;
 }
 
+/* Badge de producto: etiqueta pequeña sobre la imagen de la tarjeta */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -343,16 +417,19 @@ button {
   font-weight: 700;
 }
 
+/* Badge verde: "Oferta" */
 .badge--sale {
   background: rgba(22, 163, 74, 0.12);
   color: var(--green);
 }
 
+/* Badge azul: "Nuevo" */
 .badge--new {
   background: rgba(37, 99, 235, 0.12);
   color: #2563eb;
 }
 
+/* Badge dorado: "Más vendido" / "Profesional" */
 .badge--top {
   background: rgba(245, 158, 11, 0.13);
   color: #b45309;
@@ -360,6 +437,10 @@ button {
 
 /* =========================
    Hero
+   Primera sección visible. Layout de dos columnas:
+   - Izquierda: texto, CTAs y estadísticas
+   - Derecha: tarjetas visuales decorativas
+   Pseudo-elemento ::before agrega gradientes decorativos de fondo.
 ========================= */
 .hero {
   padding: 4rem 0 3rem;
@@ -367,6 +448,7 @@ button {
   overflow: clip;
 }
 
+/* Gradientes decorativos de fondo del hero (no interactivos) */
 .hero::before {
   content: "";
   position: absolute;
@@ -377,6 +459,7 @@ button {
   pointer-events: none;
 }
 
+/* Grid de dos columnas asimétricas: contenido (1.15fr) | visual (0.85fr) */
 .hero__grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
@@ -384,6 +467,7 @@ button {
   align-items: center;
 }
 
+/* Título H1 del hero: tamaño fluido entre 2.4rem y 4.6rem */
 .hero__content h1 {
   margin: 0.9rem 0 1rem;
   font-size: clamp(2.4rem, 5vw, 4.6rem);
@@ -392,6 +476,7 @@ button {
   letter-spacing: -0.04em;
 }
 
+/* Descripción del hero: texto secundario con buen interlineado */
 .hero__content p {
   margin: 0;
   max-width: 650px;
@@ -400,6 +485,7 @@ button {
   line-height: 1.8;
 }
 
+/* Contenedor de los botones CTA del hero */
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
@@ -407,6 +493,7 @@ button {
   margin-top: 1.7rem;
 }
 
+/* Grid de 3 estadísticas: +180 productos, 24hs, Mayorista */
 .hero__stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -414,6 +501,7 @@ button {
   margin-top: 2rem;
 }
 
+/* Tarjeta individual de estadística con glassmorphism */
 .hero__stats article {
   background: rgba(255, 255, 255, 0.74);
   border: 1px solid rgba(255,255,255,0.65);
@@ -423,22 +511,26 @@ button {
   box-shadow: var(--shadow);
 }
 
+/* Número destacado en la tarjeta de estadística */
 .hero__stats strong {
   display: block;
   font-size: 1.2rem;
 }
 
+/* Etiqueta descriptiva del número */
 .hero__stats span {
   display: block;
   color: var(--text-soft);
   margin-top: 0.25rem;
 }
 
+/* Columna visual del hero: contiene las tarjetas superpuestas */
 .hero__visual {
   position: relative;
   min-height: 460px;
 }
 
+/* Tarjeta decorativa base del hero */
 .hero-card {
   position: absolute;
   border-radius: 28px;
@@ -446,6 +538,7 @@ button {
   backdrop-filter: blur(18px);
 }
 
+/* Tarjeta principal (fondo oscuro con gradiente): ocupa la mayor parte de la visual */
 .hero-card--primary {
   inset: 0 0 80px 30px;
   padding: 2rem;
@@ -456,12 +549,14 @@ button {
   border: 1px solid rgba(255,255,255,0.08);
 }
 
+/* Título H2 dentro de la tarjeta principal */
 .hero-card--primary h2 {
   margin: 0.8rem 0 1rem;
   font-size: clamp(1.4rem, 2vw, 2.1rem);
   max-width: 360px;
 }
 
+/* Lista de productos dentro de la tarjeta principal */
 .hero-card--primary ul {
   margin: 0;
   padding-left: 1.2rem;
@@ -470,6 +565,7 @@ button {
   color: rgba(255,255,255,0.82);
 }
 
+/* Tarjeta secundaria (fondo blanco): esquina inferior derecha, mensaje de beneficio */
 .hero-card--secondary {
   right: 0;
   bottom: 0;
@@ -479,6 +575,8 @@ button {
   border: 1px solid rgba(255,255,255,0.7);
 }
 
+/* Etiqueta de categoría en la tarjeta primaria del hero */
+/* Etiqueta de categoría en la tarjeta primaria del hero */
 .hero-card__label {
   color: rgba(255,255,255,0.72);
   font-size: 0.82rem;
@@ -488,7 +586,11 @@ button {
 
 /* =========================
    Trust strip / categories
+   Franja de palabras clave (trust strip) y grilla de categorías.
+   La grilla de categorías es generada dinámicamente por JS.
 ========================= */
+
+/* Franja de confianza con fondo transparente */
 .trust-strip {
   padding: 1rem 0 1.4rem;
 }
@@ -499,6 +601,7 @@ button {
   gap: 0.8rem;
 }
 
+/* Ítem individual de la franja de confianza: pill con glassmorphism */
 .trust-strip__grid span {
   display: flex;
   justify-content: center;
@@ -512,12 +615,14 @@ button {
   box-shadow: var(--shadow);
 }
 
+/* Grid de 4 columnas para las tarjetas de categoría */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
 }
 
+/* Tarjeta de categoría: botón con fondo oscuro y ícono decorativo */
 .category-card {
   position: relative;
   overflow: hidden;
@@ -532,11 +637,13 @@ button {
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
+/* Elevación al hover */
 .category-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
 
+/* Icono emoji decorativo posicionado en la esquina inferior derecha */
 .category-card::after {
   content: attr(data-icon);
   position: absolute;
@@ -546,11 +653,13 @@ button {
   opacity: 0.18;
 }
 
+/* Nombre de la categoría */
 .category-card h3 {
   margin: 1.2rem 0 0.35rem;
   font-size: 1.15rem;
 }
 
+/* Descripción breve de la categoría */
 .category-card p {
   margin: 0;
   max-width: 220px;
@@ -558,6 +667,7 @@ button {
   line-height: 1.55;
 }
 
+/* Chip dorado con la cantidad de productos de esa categoría */
 .category-card__chip {
   display: inline-flex;
   min-height: 30px;
@@ -573,7 +683,13 @@ button {
 
 /* =========================
    Toolbar / filters
+   Barra de herramientas del catálogo:
+   - Campo de búsqueda en tiempo real
+   - Pills de filtro por categoría
+   - Resumen de resultados y botón limpiar filtros
 ========================= */
+
+/* Layout de 3 columnas: buscador | pills | resumen */
 .catalog-toolbar {
   display: grid;
   grid-template-columns: minmax(260px, 1.2fr) 2fr auto;
@@ -582,6 +698,7 @@ button {
   margin-bottom: 1.8rem;
 }
 
+/* Campo de texto del buscador con sombra y foco dorado */
 .search-field input {
   width: 100%;
   min-height: 54px;
@@ -593,17 +710,20 @@ button {
   box-shadow: var(--shadow);
 }
 
+/* Estado de foco: borde dorado + anillo exterior */
 .search-field input:focus {
   border-color: rgba(245, 158, 11, 0.55);
   box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.14);
 }
 
+/* Contenedor de pills de filtro */
 .filter-pills {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
 }
 
+/* Pill individual de filtro por categoría */
 .filter-pill {
   min-height: 44px;
   border-radius: 999px;
@@ -615,6 +735,7 @@ button {
   transition: background var(--transition), border-color var(--transition), color var(--transition);
 }
 
+/* Pill activa: fondo oscuro con texto blanco */
 .filter-pill.is-active {
   background: #111827;
   color: white;
@@ -627,6 +748,7 @@ button {
   gap: 1rem;
 }
 
+/* Texto del contador (ej: "8 productos") */
 .catalog-summary span {
   color: var(--text-soft);
   white-space: nowrap;
@@ -634,7 +756,11 @@ button {
 
 /* =========================
    Products
+   Tarjetas de producto para el catálogo y la sección de destacados.
+   Estructura: media (imagen + badges) | body (meta, nombre, desc, footer).
 ========================= */
+
+/* Grid de 4 columnas para catálogo y destacados */
 .product-grid,
 .featured-grid {
   display: grid;
@@ -642,6 +768,7 @@ button {
   gap: 1rem;
 }
 
+/* Tarjeta de producto: flex columna con fondo blanco semitransparente */
 .product-card {
   display: flex;
   flex-direction: column;
@@ -653,17 +780,20 @@ button {
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
+/* Elevación y sombra mayor al hover */
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
 
+/* Área de la imagen con fondo gris muy claro */
 .product-card__media {
   position: relative;
   background: linear-gradient(180deg, #f8fafc, #e8eef6);
   padding: 1rem;
 }
 
+/* Imagen del producto con relación de aspecto 4:3 */
 .product-card__media img {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -671,6 +801,7 @@ button {
   border-radius: 18px;
 }
 
+/* Contenedor de badges superpuesto sobre la imagen (esquina superior izquierda) */
 .product-card__badges {
   position: absolute;
   left: 1rem;
@@ -680,6 +811,7 @@ button {
   gap: 0.45rem;
 }
 
+/* Cuerpo de la tarjeta: nombre, descripción, precio y CTA */
 .product-card__body {
   display: flex;
   flex-direction: column;
@@ -688,6 +820,7 @@ button {
   height: 100%;
 }
 
+/* Fila superior con categoría (izquierda) y estado de stock (derecha) */
 .product-card__meta {
   display: flex;
   justify-content: space-between;
@@ -695,6 +828,7 @@ button {
   align-items: center;
 }
 
+/* Etiqueta de categoría del producto en mayúsculas doradas */
 .product-card__category {
   color: #92400e;
   font-size: 0.82rem;
@@ -703,6 +837,7 @@ button {
   letter-spacing: 0.06em;
 }
 
+/* Pill de estado de stock */
 .stock-pill {
   display: inline-flex;
   align-items: center;
@@ -713,22 +848,26 @@ button {
   font-weight: 700;
 }
 
+/* Stock disponible: verde */
 .stock-pill--ok {
   color: var(--green);
   background: rgba(22, 163, 74, 0.1);
 }
 
+/* Stock bajo ("Últimas unidades"): amarillo/dorado */
 .stock-pill--low {
   color: #b45309;
   background: rgba(245, 158, 11, 0.13);
 }
 
+/* Nombre del producto */
 .product-card h3 {
   margin: 0;
   font-size: 1.08rem;
   line-height: 1.35;
 }
 
+/* Descripción del producto: altura mínima para alinear footers */
 .product-card p {
   margin: 0;
   color: var(--text-soft);
@@ -736,6 +875,7 @@ button {
   min-height: 76px;
 }
 
+/* Fila inferior: precio (izquierda) + botón agregar (derecha) */
 .product-card__footer {
   display: flex;
   justify-content: space-between;
@@ -744,16 +884,19 @@ button {
   margin-top: auto;
 }
 
+/* Precio del producto en tamaño grande */
 .price-block strong {
   display: block;
   font-size: 1.25rem;
 }
 
+/* Leyenda "Precio estimado" debajo del monto */
 .price-block span {
   color: var(--text-soft);
   font-size: 0.85rem;
 }
 
+/* Estado vacío del catálogo: se muestra cuando no hay coincidencias */
 .empty-state {
   margin-top: 1.2rem;
   padding: 2.4rem;
@@ -774,13 +917,17 @@ button {
 
 /* =========================
    Benefits / contact / footer
+   Sección de beneficios, bloque de contacto y pie de página.
 ========================= */
+
+/* Grid de 4 tarjetas de beneficio */
 .benefits-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
 }
 
+/* Tarjeta de beneficio individual con fondo blanco suave */
 .benefit-card {
   padding: 1.4rem;
   border-radius: 24px;
@@ -789,40 +936,47 @@ button {
   box-shadow: var(--shadow);
 }
 
+/* Número de orden del beneficio (01, 02, 03, 04) en dorado */
 .benefit-card span {
   display: inline-block;
   color: #92400e;
   font-weight: 800;
 }
 
+/* Título del beneficio */
 .benefit-card h3 {
   margin: 1rem 0 0.5rem;
 }
 
+/* Descripción del beneficio */
 .benefit-card p {
   margin: 0;
   color: var(--text-soft);
   line-height: 1.7;
 }
 
+/* Layout de contacto: dos columnas asimétricas (texto | panel) */
 .contact-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 1rem;
 }
 
+/* Párrafo del bloque de contacto con buen interlineado */
 .contact-copy p {
   max-width: 680px;
   color: var(--text-soft);
   line-height: 1.8;
 }
 
+/* Lista vertical de datos de contacto (teléfono, mail, ubicación, horario) */
 .contact-list {
   display: grid;
   gap: 0.85rem;
   margin-top: 1.4rem;
 }
 
+/* Ítems de la lista de contacto alineados con el icono emoji */
 .contact-list a,
 .contact-list span {
   display: inline-flex;
@@ -832,6 +986,7 @@ button {
   font-weight: 600;
 }
 
+/* Panel lateral de canales de atención: fondo oscuro */
 .contact-panel {
   padding: 1.4rem;
   border-radius: 26px;
@@ -844,28 +999,33 @@ button {
   margin-top: 0;
 }
 
+/* Grid de artículos del panel de atención con separadores */
 .contact-panel__items {
   display: grid;
   gap: 1rem;
   margin: 1rem 0 1.4rem;
 }
 
+/* Artículo individual del panel: separador inferior */
 .contact-panel__items article {
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(255,255,255,0.09);
 }
 
+/* Último artículo sin separador inferior */
 .contact-panel__items article:last-child {
   border-bottom: 0;
   padding-bottom: 0;
 }
 
+/* Descripción del canal dentro del panel */
 .contact-panel__items p {
   margin: 0.35rem 0 0;
   color: rgba(255,255,255,0.72);
   line-height: 1.6;
 }
 
+/* Pie de página: texto gris claro, separador superior */
 .footer {
   padding: 1.4rem 0 2.2rem;
   color: #475467;
@@ -880,11 +1040,13 @@ button {
   border-top: 1px solid rgba(148, 163, 184, 0.24);
 }
 
+/* Párrafo descriptivo del footer */
 .footer__content p {
   margin: 0.5rem 0 0;
   max-width: 580px;
 }
 
+/* Navegación secundaria del footer */
 .footer__links {
   display: flex;
   flex-wrap: wrap;
@@ -893,7 +1055,12 @@ button {
 
 /* =========================
    Cart / overlay / utilities
+   Drawer lateral del carrito, overlay de fondo,
+   botones flotantes (WhatsApp y volver arriba),
+   notificación toast y utilidades varias.
 ========================= */
+
+/* Botón del carrito en la topbar: fondo oscuro con contador dorado */
 .cart-toggle {
   display: inline-flex;
   align-items: center;
@@ -905,6 +1072,7 @@ button {
   color: white;
 }
 
+/* Contador de items en el carrito: círculo dorado con número */
 .cart-count {
   min-width: 26px;
   height: 26px;
@@ -917,6 +1085,10 @@ button {
   font-weight: 800;
 }
 
+/* Drawer (panel lateral) del carrito:
+   - Fijo en la derecha de la pantalla
+   - Se traslada con transform en lugar de display para poder animarlo
+   - Clase .is-open lo hace visible */
 .cart-drawer {
   position: fixed;
   top: 0;
@@ -932,22 +1104,27 @@ button {
   flex-direction: column;
 }
 
+/* Estado abierto del drawer: aparece desde la derecha */
 .cart-drawer.is-open {
   transform: translateX(0);
 }
 
+/* Encabezado y pie del drawer con bordes separadores */
 .cart-drawer__header,
 .cart-drawer__footer {
   padding: 1.2rem;
   border-bottom: 1px solid var(--line);
 }
 
+/* Pie del drawer: se pega al fondo usando margin-top:auto */
 .cart-drawer__footer {
+
   border-top: 1px solid var(--line);
   border-bottom: 0;
   margin-top: auto;
 }
 
+/* Cuerpo del drawer: área desplazable con los items del carrito */
 .cart-drawer__body {
   padding: 1rem 1.2rem;
   overflow: auto;
@@ -965,6 +1142,7 @@ button {
   border-radius: 18px;
 }
 
+/* Miniatura del producto en el carrito */
 .cart-item img {
   width: 72px;
   height: 72px;
@@ -973,17 +1151,20 @@ button {
   background: #f3f4f6;
 }
 
+/* Nombre del producto en el carrito */
 .cart-item h4 {
   margin: 0 0 0.35rem;
   font-size: 0.95rem;
 }
 
+/* Categoría y precio unitario del item */
 .cart-item p {
   margin: 0;
   color: var(--text-soft);
   font-size: 0.84rem;
 }
 
+/* Controles de cantidad: botón − | número | botón + */
 .qty-controls {
   display: inline-flex;
   align-items: center;
@@ -991,6 +1172,7 @@ button {
   margin-top: 0.55rem;
 }
 
+/* Botón de incremento/decremento de cantidad */
 .qty-controls button {
   width: 28px;
   height: 28px;
@@ -999,12 +1181,14 @@ button {
   font-weight: 800;
 }
 
+/* Número de unidades entre los botones */
 .qty-controls span {
   min-width: 24px;
   text-align: center;
   font-weight: 700;
 }
 
+/* Fila de subtotal: etiqueta (izquierda) | monto (derecha) */
 .cart-total {
   display: flex;
   justify-content: space-between;
@@ -1013,15 +1197,18 @@ button {
   margin-bottom: 1rem;
 }
 
+/* Etiqueta "Subtotal estimado" */
 .cart-total span {
   color: var(--text-soft);
 }
 
+/* Contenedor de acciones del drawer: vaciar + checkout */
 .cart-actions {
   display: grid;
   gap: 0.85rem;
 }
 
+/* Estado vacío del carrito (mensaje cuando no hay productos) */
 .empty-cart {
   padding: 1.4rem;
   text-align: center;
@@ -1029,6 +1216,7 @@ button {
   border-radius: 18px;
 }
 
+/* Botón icono cuadrado (cerrar carrito) */
 .icon-btn {
   width: 42px;
   height: 42px;
@@ -1038,6 +1226,7 @@ button {
   background: #f3f6fb;
 }
 
+/* Botón "Eliminar" de un item: texto rojo pequeño */
 .remove-item {
   color: var(--red);
   font-weight: 700;
@@ -1046,6 +1235,9 @@ button {
   display: inline-block;
 }
 
+/* Overlay semitransparente de fondo:
+   Se activa al abrir el carrito o el menú móvil.
+   Al hacer click sobre él se cierran ambos. */
 .overlay {
   position: fixed;
   inset: 0;
@@ -1056,11 +1248,13 @@ button {
   transition: opacity var(--transition), visibility var(--transition);
 }
 
+/* Estado visible del overlay */
 .overlay.is-visible {
   opacity: 1;
   visibility: visible;
 }
 
+/* Botones flotantes: WhatsApp y "volver arriba" */
 .floating-whatsapp,
 .back-to-top {
   position: fixed;
@@ -1074,6 +1268,7 @@ button {
   z-index: 900;
 }
 
+/* Botón flotante de WhatsApp: verde, siempre visible */
 .floating-whatsapp {
   bottom: 1rem;
   background: #22c55e;
@@ -1091,12 +1286,17 @@ button {
   transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
 }
 
+/* Estado visible del botón "volver arriba" */
 .back-to-top.is-visible {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
+/* Notificación toast:
+   Mensaje temporal centrado en la parte inferior.
+   Se muestra al agregar/eliminar productos del carrito.
+   La clase .is-visible activa la transición de entrada. */
 .toast {
   position: fixed;
   left: 50%;
@@ -1115,6 +1315,7 @@ button {
   transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
 }
 
+/* Estado visible del toast */
 .toast.is-visible {
   opacity: 1;
   visibility: visible;
@@ -1123,6 +1324,10 @@ button {
 
 /* =========================
    Reveal animation
+   Animación de entrada para elementos con clase .reveal.
+   El estado inicial es invisible y desplazado hacia abajo.
+   JS (IntersectionObserver) agrega .is-visible cuando el elemento
+   entra en el viewport, lo que activa la transición.
 ========================= */
 .reveal {
   opacity: 0;
@@ -1130,6 +1335,7 @@ button {
   transition: opacity 500ms ease, transform 500ms ease;
 }
 
+/* Estado final de la animación: visible y en posición normal */
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
@@ -1137,7 +1343,13 @@ button {
 
 /* =========================
    Responsive
+   Breakpoints:
+   - 1100px: colapsa grillas a 2 columnas, secciones en una sola columna
+   - 860px:  menú móvil, oculta elementos de escritorio
+   - 680px:  grillas de una columna, ajustes de tipografía y espaciado
 ========================= */
+
+/* Pantallas medianas (tablets y laptops pequeñas) */
 @media (max-width: 1100px) {
   .hero__grid,
   .contact-grid,
@@ -1166,6 +1378,8 @@ button {
   }
 }
 
+/* Pantallas pequeñas (móviles landscape y tablets verticales):
+   El menú se convierte en panel flotante activado con el botón hamburguesa */
 @media (max-width: 860px) {
   .nav {
     position: fixed;
@@ -1206,6 +1420,7 @@ button {
   }
 }
 
+/* Móviles pequeños (portrait): todo en una sola columna */
 @media (max-width: 680px) {
   .section {
     padding: 4.2rem 0;
