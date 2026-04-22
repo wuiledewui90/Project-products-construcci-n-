@@ -61,13 +61,14 @@ async function initApp() {
     renderCategorySelect();
     applyFilters();
     bindEvents();
+    bindProductGridNavigation();
     bindHeaderSearch();
   } catch (error) {
     console.error(error);
     // Muestra error en la grilla si el JSON no pudo cargarse
-    const grid = document.getElementById("productGrid");
-    if (grid) {
-      grid.innerHTML = '<div class="catalog-empty">No se pudieron cargar los productos.</div>';
+    const rows = document.getElementById("productRows");
+    if (rows) {
+      rows.innerHTML = '<div class="catalog-empty">No se pudieron cargar los productos.</div>';
     }
   }
 }
@@ -119,18 +120,59 @@ function renderCategoriesNav() {
     ...new Set(state.products.map(p => p.categoria))
   ];
 
-  container.innerHTML = categorias.map(cat => `
-    <span class="categoria-link ${cat === state.activeCategory ? 'active' : ''}" data-category="${cat}">
-      ${cat}
-    </span>
-  `).join("");
+  const categoryImageMap = new Map();
+  state.products.forEach((product) => {
+    if (!categoryImageMap.has(product.categoria) && product.imagen) {
+      categoryImageMap.set(product.categoria, product.imagen);
+    }
+  });
+
+  const fallbackImage = state.products.find((product) => product.imagen)?.imagen
+    || "assets/img/productos/placeholder.jpg";
+
+  function renderCategorySet() {
+    return categorias.map((cat) => {
+      const image = cat === "Todas"
+        ? fallbackImage
+        : (categoryImageMap.get(cat) || fallbackImage);
+
+      const activeClass = cat === state.activeCategory ? "active" : "";
+
+      return `
+        <button class="categoria-link ${activeClass}" type="button" data-category="${escapeAttribute(cat)}" aria-label="Filtrar por ${escapeAttribute(cat)}">
+          <span class="categoria-link__bubble">
+            <img src="${escapeAttribute(image)}" alt="${escapeAttribute(cat)}" loading="lazy" onerror="this.onerror=null; this.src='assets/img/productos/placeholder.jpg';" />
+          </span>
+          <span class="categoria-link__label">${escapeHtml(cat)}</span>
+        </button>
+      `;
+    }).join("");
+  }
+
+  container.innerHTML = `
+    <div class="categorias-loop-set">
+      ${renderCategorySet()}
+    </div>
+    <div class="categorias-loop-set">
+      ${renderCategorySet()}
+    </div>
+  `;
 
   container.querySelectorAll(".categoria-link").forEach(link => {
     link.addEventListener("click", () => {
       state.activeCategory = link.dataset.category;
 
+      // Sincroniza el select del catálogo con la categoría elegida
+      const categorySelect = document.getElementById("categorySelect");
+      if (categorySelect) categorySelect.value = state.activeCategory;
+
+      // Limpia búsqueda para mostrar todos los productos de esa categoría
+      state.searchTerm = "";
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) searchInput.value = "";
+
       renderCategoriesNav();
-      renderProducts();
+      applyFilters();
 
       document.getElementById("catalogo")?.scrollIntoView({
         behavior: "smooth"
@@ -175,11 +217,12 @@ function bindEvents() {
 
   categorySelect?.addEventListener("change", (event) => {
     state.activeCategory = event.target.value;
+    renderCategoriesNav();
     applyFilters();
   });
 
   // Delegación de eventos para botones de carrito en las cards
-  document.getElementById("productGrid")?.addEventListener("click", (event) => {
+  document.getElementById("productRows")?.addEventListener("click", (event) => {
     // --- Botón "Agregar" ---
     const addBtn = event.target.closest(".product-card__cart-btn");
     if (addBtn) {
@@ -209,23 +252,34 @@ function bindEvents() {
    Guarda el resultado en state.filteredProducts y llama renderProducts().
    ─────────────────────────────────────────────────────────── */
 function applyFilters() {
-  state.filteredProducts = state.products.filter((product) => {
-    const matchesCategory =
-      state.activeCategory === "Todas" || product.categoria === state.activeCategory;
+  state.filteredProducts = state.products
+    .filter((product) => {
+      const matchesCategory =
+        state.activeCategory === "Todas" || product.categoria === state.activeCategory;
 
-    const haystack = [
-      product.nombre,
-      product.marca,
-      product.codigo,
-      product.categoria
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
+      const haystack = [
+        product.nombre,
+        product.marca,
+        product.codigo,
+        product.categoria
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
-    const matchesSearch = haystack.includes(state.searchTerm);
-    return matchesCategory && matchesSearch;
-  });
+      const matchesSearch = haystack.includes(state.searchTerm);
+      return matchesCategory && matchesSearch;
+    })
+    .sort((a, b) => {
+      const categoryA = String(a.categoria || "Sin categoría");
+      const categoryB = String(b.categoria || "Sin categoría");
+      const byCategory = categoryA.localeCompare(categoryB, "es", { sensitivity: "base" });
+      if (byCategory !== 0) return byCategory;
+
+      const nameA = String(a.nombre || "");
+      const nameB = String(b.nombre || "");
+      return nameA.localeCompare(nameB, "es", { sensitivity: "base" });
+    });
 
   renderProducts();
 }
@@ -236,17 +290,105 @@ function applyFilters() {
    Cada tarjeta se construye con createProductCard().
    ─────────────────────────────────────────────────────────── */
 function renderProducts() {
-  const productGrid = document.getElementById("productGrid");
-  if (!productGrid) return;
+  const productRows = document.getElementById("productRows");
+  if (!productRows) return;
 
   if (!state.filteredProducts.length) {
-    productGrid.innerHTML = '<div class="catalog-empty">No se encontraron productos con ese criterio.</div>';
+    productRows.innerHTML = '<div class="catalog-empty">No se encontraron productos con ese criterio.</div>';
+    refreshProductGridNavigation();
     return;
   }
 
-  productGrid.innerHTML = state.filteredProducts
-    .map((product) => createProductCard(product))
+  const rowBuckets = [[], [], []];
+  state.filteredProducts.forEach((product, index) => {
+    rowBuckets[index % 3].push(product);
+  });
+
+  productRows.innerHTML = rowBuckets
+    .map((rowProducts, index) => {
+      const rowCards = rowProducts.map((product) => createProductCard(product)).join("");
+      return `
+        <div class="product-grid-shell" data-row-index="${index + 1}">
+          <button class="product-grid-arrow product-grid-arrow--prev" type="button" data-dir="prev" aria-label="Ver productos anteriores de la fila ${index + 1}">❮</button>
+          <div class="product-grid" data-row-grid="${index + 1}">${rowCards}</div>
+          <button class="product-grid-arrow product-grid-arrow--next" type="button" data-dir="next" aria-label="Ver productos siguientes de la fila ${index + 1}">❯</button>
+        </div>
+      `;
+    })
     .join("");
+
+  refreshProductGridNavigation();
+}
+
+/* ── Navegación del carrusel de productos ──────────────────────
+   Botones anterior/siguiente + rueda de mouse horizontal.
+   ─────────────────────────────────────────────────────────── */
+function bindProductGridNavigation() {
+  const rows = document.getElementById("productRows");
+
+  if (!rows || rows.dataset.navBound === "true") return;
+
+  rows.addEventListener("click", (event) => {
+    const arrow = event.target.closest(".product-grid-arrow");
+    if (!arrow || arrow.disabled) return;
+
+    const shell = arrow.closest(".product-grid-shell");
+    const rowGrid = shell?.querySelector(".product-grid");
+    if (!rowGrid) return;
+
+    const step = Math.max(280, Math.floor(rowGrid.clientWidth * 0.82));
+    const direction = arrow.dataset.dir === "prev" ? -1 : 1;
+
+    rowGrid.scrollBy({ left: step * direction, behavior: "smooth" });
+  });
+
+  rows.addEventListener("scroll", (event) => {
+    if (event.target.classList?.contains("product-grid")) {
+      refreshProductGridNavigation();
+    }
+  }, { passive: true, capture: true });
+
+  window.addEventListener("resize", refreshProductGridNavigation);
+
+  rows.dataset.navBound = "true";
+  refreshProductGridNavigation();
+}
+
+function refreshProductGridNavigation() {
+  const rowShells = document.querySelectorAll("#productRows .product-grid-shell");
+  if (!rowShells.length) return;
+
+  const isTouchLayout = window.matchMedia("(max-width: 768px)").matches;
+
+  rowShells.forEach((shell) => {
+    const rowGrid = shell.querySelector(".product-grid");
+    const prevBtn = shell.querySelector('.product-grid-arrow[data-dir="prev"]');
+    const nextBtn = shell.querySelector('.product-grid-arrow[data-dir="next"]');
+    if (!rowGrid || !prevBtn || !nextBtn) return;
+
+    if (isTouchLayout) {
+      prevBtn.hidden = true;
+      nextBtn.hidden = true;
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      return;
+    }
+
+    prevBtn.hidden = false;
+    nextBtn.hidden = false;
+
+    const canScroll = rowGrid.scrollWidth > rowGrid.clientWidth + 8;
+    if (!canScroll) {
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      return;
+    }
+
+    const atStart = rowGrid.scrollLeft <= 4;
+    const atEnd = rowGrid.scrollLeft + rowGrid.clientWidth >= rowGrid.scrollWidth - 4;
+    prevBtn.disabled = atStart;
+    nextBtn.disabled = atEnd;
+  });
 }
 
 /* ── createProductCard ──────────────────────────────────────────
