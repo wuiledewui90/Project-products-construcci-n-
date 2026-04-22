@@ -294,17 +294,25 @@ function renderProducts() {
   if (!productRows) return;
 
   if (!state.filteredProducts.length) {
+    productRows.classList.remove("is-single-row");
     productRows.innerHTML = '<div class="catalog-empty">No se encontraron productos con ese criterio.</div>';
     refreshProductGridNavigation();
     return;
   }
 
-  const rowBuckets = [[], [], []];
-  state.filteredProducts.forEach((product, index) => {
-    rowBuckets[index % 3].push(product);
-  });
+  const hasActiveFilter = state.activeCategory !== "Todas" || state.searchTerm.length > 0;
+  const rowBuckets = hasActiveFilter ? [state.filteredProducts] : [[], [], []];
+
+  if (!hasActiveFilter) {
+    state.filteredProducts.forEach((product, index) => {
+      rowBuckets[index % 3].push(product);
+    });
+  }
+
+  productRows.classList.toggle("is-single-row", hasActiveFilter);
 
   productRows.innerHTML = rowBuckets
+    .filter((rowProducts) => rowProducts.length > 0)
     .map((rowProducts, index) => {
       const rowCards = rowProducts.map((product) => createProductCard(product)).join("");
       return `

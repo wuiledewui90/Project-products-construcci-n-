@@ -673,6 +673,10 @@ select {
   margin-top: 8px;
 }
 
+.product-rows.is-single-row {
+  gap: 0;
+}
+
 .product-grid-shell {
   position: relative;
 }
