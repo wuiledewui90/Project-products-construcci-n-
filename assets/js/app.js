@@ -147,7 +147,7 @@ function renderCategoriesNav() {
   function renderCategorySet() {
     return categorias.map((cat) => {
       const image = cat === "Todas"
-        ? fallbackImage
+        ? "assets/img/LogoDP.png"
         : (categoryImageMap.get(cat) || fallbackImage);
 
       const activeClass = cat === state.activeCategory ? "active" : "";
@@ -180,9 +180,7 @@ function renderCategoriesNav() {
 
       state.activeCategory = cat;
 
-      const categorySelect = document.getElementById("categorySelect");
-      if (categorySelect) categorySelect.value = cat;
-
+      // No se sincroniza el select — el usuario lo controla manualmente
       state.searchTerm = "";
       const searchInput = document.getElementById("searchInput");
       if (searchInput) searchInput.value = "";
@@ -355,6 +353,16 @@ function bindEvents() {
 
   searchInput?.addEventListener("input", (event) => {
     state.searchTerm = event.target.value.trim().toLowerCase();
+
+    // Al escribir, buscar en todos los productos ignorando la categoría activa
+    if (state.searchTerm.length > 0) {
+      state.activeCategory = "Todas";
+      // Quita el .active de todas las burbujas
+      document.querySelectorAll("#categoryNav .categoria-link").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.category === "Todas");
+      });
+    }
+
     applyFilters();
   });
 
@@ -779,10 +787,15 @@ function bindHeaderSearch() {
     const catalogInput = document.getElementById("searchInput");
     if (catalogInput) catalogInput.value = term;
 
-    // Resetea el filtro de categoría
+    // Resetea categoría activa → busca en todos los productos
     state.activeCategory = "Todas";
     const select = document.getElementById("categorySelect");
     if (select) select.value = "Todas";
+
+    // Quita .active de todas las burbujas
+    document.querySelectorAll("#categoryNav .categoria-link").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.category === "Todas");
+    });
 
     state.searchTerm = term.toLowerCase();
     applyFilters();

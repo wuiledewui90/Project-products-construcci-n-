@@ -100,6 +100,26 @@
   <main>
 
     <!-- ============================================================
+        SECCIÓN CATEGORÍAS — #categorias
+          Barra horizontal de filtros. #categoryNav es generado
+          por app.js → renderCategoriesNav(). Al clicar una categoría:
+          1. Actualiza state.activeCategory
+          2. Re-renderiza la barra (.active se mueve)
+          3. Filtra la grilla del catálogo
+          4. Hace scroll suave a #catalogo
+    ============================================================ -->
+    <section class="section categorias-nav" id="categorias">
+      <div class="container">
+
+        <!-- Los <span class="categoria-link"> son inyectados por app.js -->
+        <div class="categorias-bar" id="categoryNav">
+          <!-- Generado dinámicamente por renderCategoriesNav() -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
         SECCIÓN HERO — #inicio
         Primera pantalla visible. Presenta la propuesta de valor
         principal. La tarjeta lateral muestra estadísticas en vivo
@@ -176,26 +196,6 @@
             Catálogo integrado en un solo <code>index.html</code> con archivos separados de CSS, JS y JSON.
           </div>
         </aside>
-      </div>
-    </section>
-
-    <!-- ============================================================
-        SECCIÓN CATEGORÍAS — #categorias
-          Barra horizontal de filtros. #categoryNav es generado
-          por app.js → renderCategoriesNav(). Al clicar una categoría:
-          1. Actualiza state.activeCategory
-          2. Re-renderiza la barra (.active se mueve)
-          3. Filtra la grilla del catálogo
-          4. Hace scroll suave a #catalogo
-    ============================================================ -->
-    <section class="section categorias-nav" id="categorias">
-      <div class="container">
-
-        <!-- Los <span class="categoria-link"> son inyectados por app.js -->
-        <div class="categorias-bar" id="categoryNav">
-          <!-- Generado dinámicamente por renderCategoriesNav() -->
-        </div>
-
       </div>
     </section>
 

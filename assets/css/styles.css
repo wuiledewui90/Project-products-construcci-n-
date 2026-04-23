@@ -564,22 +564,23 @@ select {
    ============================================================ */
 /* categorias */
 .categorias-nav {
-  padding: 24px 0 22px;
-  background: #0f3b68; /* azul tipo Castillo */
+  padding: 6px 0 4px;
+  background: #0f3b68;
+  overflow-x: clip;
 }
 
 .categorias-nav .container {
   width: 100%;
   max-width: none;
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: visible;
   padding-inline: 0;
-  padding-top: 4px;
+  padding-top: 2px;
 }
 
 .categorias-bar {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   width: max-content;
   min-width: 100%;
   gap: 0;
@@ -603,8 +604,8 @@ select {
 .categorias-loop-set {
   display: flex;
   align-items: flex-start;
-  gap: 26px;
-  padding-right: 26px;
+  gap: 16px;
+  padding-right: 16px;
   flex-shrink: 0;
 }
 
@@ -616,11 +617,11 @@ select {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  min-width: 132px;
+  gap: 5px;
+  min-width: 68px;
   color: #cbd5e1;
   font-weight: 600;
-  font-size: 1.08rem;
+  font-size: 0.72rem;
   line-height: 1.2;
   white-space: normal;
   text-align: center;
@@ -629,8 +630,8 @@ select {
 }
 
 .categoria-link__bubble {
-  width: 118px;
-  height: 118px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.16);
@@ -649,9 +650,9 @@ select {
 }
 
 .categoria-link__label {
-  max-width: 138px;
+  max-width: 72px;
   color: #d5deea;
-  font-size: 1rem;
+  font-size: 0.70rem;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -1450,21 +1451,23 @@ select {
 @media (max-width: 992px) {
   .categorias-bar {
     animation-duration: 30s;
+    justify-content: center;
+    align-items: center;
   }
 
   .categoria-link {
-    min-width: 118px;
-    font-size: 1rem;
+    min-width: 60px;
+    font-size: 0.70rem;
   }
 
   .categoria-link__bubble {
-    width: 106px;
-    height: 106px;
+    width: 46px;
+    height: 46px;
   }
 
   .categoria-link__label {
-    font-size: 0.96rem;
-    max-width: 120px;
+    font-size: 0.68rem;
+    max-width: 64px;
   }
 
   .hero__grid,
@@ -1555,21 +1558,23 @@ select {
 
   .categorias-bar {
     animation-duration: 27s;
+    justify-content: center;
+    align-items: center;
   }
 
   .categoria-link {
-    min-width: 102px;
-    gap: 9px;
+    min-width: 54px;
+    gap: 4px;
   }
 
   .categoria-link__bubble {
-    width: 90px;
-    height: 90px;
+    width: 42px;
+    height: 42px;
   }
 
   .categoria-link__label {
-    max-width: 104px;
-    font-size: 0.9rem;
+    max-width: 58px;
+    font-size: 0.66rem;
   }
 
   .topbar__content {
@@ -1664,26 +1669,28 @@ select {
   }
 
   .categorias-nav {
-    padding: 14px 0 18px;
+    padding: 4px 0;
+    overflow-x: clip;
   }
 
   .categorias-loop-set {
-    gap: 18px;
-    padding-right: 18px;
+    gap: 8px;
+    padding-right: 8px;
+    align-items: center;
   }
 
   .categoria-link {
-    min-width: 86px;
+    min-width: 50px;
   }
 
   .categoria-link__bubble {
-    width: 74px;
-    height: 74px;
+    width: 38px;
+    height: 38px;
   }
 
   .categoria-link__label {
-    max-width: 88px;
-    font-size: 0.82rem;
+    max-width: 54px;
+    font-size: 0.64rem;
   }
 
   .brand__logo {
