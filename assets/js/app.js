@@ -28,6 +28,19 @@ const state = {
   searchTerm: ""         // Término de búsqueda en minúsculas
 };
 
+const categoryLoopState = {
+  rafId: 0,
+  lastTs: 0,
+  offsetX: 0,
+  loopDistance: 1,
+  speedPxPerSecond: 38,
+  isDragging: false,
+  startPointerX: 0,
+  startOffsetX: 0,
+  suppressClick: false,
+  resizeBound: false
+};
+
 
 /* ── Formateador de moneda ──────────────────────────────────────
    Convierte números a formato ARS: 124900 → "$ 124.900"
@@ -63,6 +76,7 @@ async function initApp() {
     bindEvents();
     bindProductGridNavigation();
     bindHeaderSearch();
+    bindProductDetailEvents();
   } catch (error) {
     console.error(error);
     // Muestra error en la grilla si el JSON no pudo cargarse
@@ -158,27 +172,156 @@ function renderCategoriesNav() {
     </div>
   `;
 
-  container.querySelectorAll(".categoria-link").forEach(link => {
+  // Listeners de click en cada botón — sin setPointerCapture el click llega normalmente
+  container.querySelectorAll(".categoria-link").forEach((link) => {
     link.addEventListener("click", () => {
-      state.activeCategory = link.dataset.category;
+      const cat = link.dataset.category;
+      if (!cat) return;
 
-      // Sincroniza el select del catálogo con la categoría elegida
+      state.activeCategory = cat;
+
       const categorySelect = document.getElementById("categorySelect");
-      if (categorySelect) categorySelect.value = state.activeCategory;
+      if (categorySelect) categorySelect.value = cat;
 
-      // Limpia búsqueda para mostrar todos los productos de esa categoría
       state.searchTerm = "";
       const searchInput = document.getElementById("searchInput");
       if (searchInput) searchInput.value = "";
 
-      renderCategoriesNav();
+      // Mueve .active sin re-renderizar el nav
+      container.querySelectorAll(".categoria-link").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.category === cat);
+      });
+
       applyFilters();
 
-      document.getElementById("catalogo")?.scrollIntoView({
-        behavior: "smooth"
-      });
+      window.setTimeout(() => {
+        document.getElementById("productRows")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 60);
     });
   });
+
+  setupCategoriesDragLoop(container);
+}
+
+function setupCategoriesDragLoop(container) {
+  const loopSets = container.querySelectorAll(".categorias-loop-set");
+  if (!loopSets.length) return;
+
+  const recalcLoopDistance = () => {
+    const firstSet = container.querySelector(".categorias-loop-set");
+    if (!firstSet) return;
+
+    const width = firstSet.getBoundingClientRect().width;
+    if (width > 0) {
+      categoryLoopState.loopDistance = width;
+      normalizeCategoryOffset();
+      applyCategoryOffset(container);
+    }
+  };
+
+  if (container.dataset.dragBound !== "true") {
+    container.dataset.dragBound = "true";
+
+    container.addEventListener("pointerdown", (event) => {
+      if (!event.isPrimary) return;
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+
+      categoryLoopState.isDragging = true;
+      categoryLoopState.startPointerX = event.clientX;
+      categoryLoopState.startOffsetX = categoryLoopState.offsetX;
+      categoryLoopState.suppressClick = false;
+      container.classList.add("is-dragging");
+      // SIN setPointerCapture: los botones hijos reciben click normalmente.
+      // Usamos listeners en window para seguir el arrastre fuera del contenedor.
+
+      const onMove = (e) => {
+        if (!categoryLoopState.isDragging) return;
+        const dragDelta = e.clientX - categoryLoopState.startPointerX;
+        categoryLoopState.offsetX = categoryLoopState.startOffsetX + dragDelta;
+        categoryLoopState.suppressClick = Math.abs(dragDelta) > 20;
+        normalizeCategoryOffset();
+        applyCategoryOffset(container);
+        e.preventDefault();
+      };
+
+      const onUp = () => {
+        if (!categoryLoopState.isDragging) return;
+        categoryLoopState.isDragging = false;
+        categoryLoopState.lastTs = 0;
+        container.classList.remove("is-dragging");
+        if (categoryLoopState.suppressClick) {
+          window.setTimeout(() => { categoryLoopState.suppressClick = false; }, 0);
+        }
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+        window.removeEventListener("pointercancel", onUp);
+      };
+
+      window.addEventListener("pointermove", onMove, { passive: false });
+      window.addEventListener("pointerup", onUp);
+      window.addEventListener("pointercancel", onUp);
+    });
+  }
+
+  recalcLoopDistance();
+
+  if (!categoryLoopState.resizeBound) {
+    categoryLoopState.resizeBound = true;
+    window.addEventListener("resize", () => {
+      const nav = document.getElementById("categoryNav");
+      if (!nav) return;
+      const firstSet = nav.querySelector(".categorias-loop-set");
+      if (!firstSet) return;
+
+      const width = firstSet.getBoundingClientRect().width;
+      if (width > 0) {
+        categoryLoopState.loopDistance = width;
+        normalizeCategoryOffset();
+        applyCategoryOffset(nav);
+      }
+    });
+  }
+
+  startCategoryLoop(container);
+}
+
+function normalizeCategoryOffset() {
+  const distance = Math.max(1, categoryLoopState.loopDistance);
+  while (categoryLoopState.offsetX <= -distance) {
+    categoryLoopState.offsetX += distance;
+  }
+  while (categoryLoopState.offsetX > 0) {
+    categoryLoopState.offsetX -= distance;
+  }
+}
+
+function applyCategoryOffset(container) {
+  container.style.transform = `translate3d(${categoryLoopState.offsetX}px, 0, 0)`;
+}
+
+function startCategoryLoop(container) {
+  if (categoryLoopState.rafId) return;
+
+  const tick = (timestamp) => {
+    if (!categoryLoopState.lastTs) categoryLoopState.lastTs = timestamp;
+
+    const deltaMs = timestamp - categoryLoopState.lastTs;
+    categoryLoopState.lastTs = timestamp;
+
+    if (!categoryLoopState.isDragging) {
+      const deltaPx = (categoryLoopState.speedPxPerSecond * deltaMs) / 1000;
+      categoryLoopState.offsetX -= deltaPx;
+      normalizeCategoryOffset();
+      applyCategoryOffset(container);
+    }
+
+    categoryLoopState.rafId = requestAnimationFrame(tick);
+  };
+
+  categoryLoopState.rafId = requestAnimationFrame(tick);
 }
 
 /* ── renderCategorySelect ───────────────────────────────────────
@@ -241,6 +384,13 @@ function bindEvents() {
       const { action, id } = qtyBtn.dataset;
       if (action === "decrease") decreaseCartItem(id);
       if (action === "increase") increaseCartItem(id);
+      return;
+    }
+
+    // --- Click en la tarjeta (imagen o cuerpo) → abre detalle ---
+    const card = event.target.closest(".product-card");
+    if (card && card.dataset.id) {
+      openProductDetail(card.dataset.id);
     }
   });
 }
@@ -440,8 +590,8 @@ function createProductCard(product) {
   const inCartClass = cartItem ? " product-card--in-cart" : "";
 
   return `
-    <article class="product-card${inCartClass}">
-      <div class="product-card__image">
+    <article class="product-card${inCartClass}" data-id="${product.id}">
+      <div class="product-card__image product-card__image--clickable">
         <img src="${imagen}" alt="${nombre}" loading="lazy" onerror="this.style.opacity='0.25';" />
       </div>
       <div class="product-card__body">
@@ -468,6 +618,141 @@ function createProductCard(product) {
     </article>
   `;
 }
+/* ── openProductDetail ──────────────────────────────────────────
+   Abre el modal de detalle de producto con los datos del ítem
+   cuyo id coincide con productId.
+   ─────────────────────────────────────────────────────────── */
+function openProductDetail(productId) {
+  const product = state.products.find((p) => String(p.id) === String(productId));
+  if (!product) return;
+
+  const modal   = document.getElementById("productModal");
+  const overlay = document.getElementById("productModalOverlay");
+  if (!modal || !overlay) return;
+
+  // Imagen
+  const imgContainer = document.getElementById("productModalImage");
+  if (imgContainer) {
+    const imgSrc   = escapeAttribute(product.imagen || "assets/img/productos/placeholder.jpg");
+    const imgAlt   = escapeHtml(product.nombre || "Producto");
+    imgContainer.innerHTML = `<img src="${imgSrc}" alt="${imgAlt}" onerror="this.style.opacity='0.25';" />`;
+  }
+
+  // Badges
+  const badges = document.getElementById("productModalBadges");
+  if (badges) {
+    badges.innerHTML = [
+      product.categoria ? `<span class="badge badge--category">${escapeHtml(product.categoria)}</span>` : "",
+      product.marca     ? `<span class="badge badge--brand">${escapeHtml(product.marca)}</span>`         : ""
+    ].join("");
+  }
+
+  // Nombre
+  const nameEl = document.getElementById("productModalName");
+  if (nameEl) nameEl.textContent = product.nombre || "Producto";
+
+  // Meta: código y stock
+  const metaEl = document.getElementById("productModalMeta");
+  if (metaEl) {
+    metaEl.innerHTML = `
+      <span class="product-modal__meta-item">Código<strong>${escapeHtml(product.codigo || "-")}</strong></span>
+      <span class="product-modal__meta-item">Stock<strong>${Number.isFinite(Number(product.stock)) ? Number(product.stock) : 0}</strong></span>
+    `;
+  }
+
+  // Precio
+  const priceEl = document.getElementById("productModalPrice");
+  if (priceEl) {
+    const precio = Number(product.precioARS || product.precio || 0);
+    priceEl.innerHTML = `
+      <span class="label">Precio</span>
+      <span class="amount">${currencyFormatter.format(precio)}</span>
+    `;
+  }
+
+  // Acciones: agregar al carrito + WhatsApp
+  const actionsEl = document.getElementById("productModalActions");
+  if (actionsEl) {
+    const cartItem = carritoState.items.find((i) => String(i.id) === String(product.id));
+    const waText   = encodeURIComponent(product.whatsappTexto || `Hola, quiero consultar por ${product.nombre}`);
+    const waHref   = `https://wa.me/5493815035162?text=${waText}`;
+
+    const cartHtml = cartItem
+      ? `<div class="product-card__qty-control" style="border-radius:999px; padding: 6px 10px;">
+          <button class="qty-btn" type="button" data-action="decrease" data-id="${product.id}" aria-label="Quitar uno">−</button>
+          <span class="qty-display">${cartItem.quantity}</span>
+          <button class="qty-btn" type="button" data-action="increase" data-id="${product.id}" aria-label="Agregar uno">+</button>
+        </div>`
+      : `<button class="btn btn--primary product-modal__add-btn" type="button" data-id="${product.id}" style="display:inline-flex;align-items:center;gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Agregar al carrito
+        </button>`;
+
+    actionsEl.innerHTML = `
+      ${cartHtml}
+      <a class="btn--whatsapp" href="${waHref}" target="_blank" rel="noopener noreferrer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.564 4.136 1.55 5.871L.058 23.625l5.897-1.548A11.934 11.934 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.663-.52-5.168-1.42l-.37-.22-3.5.919.932-3.41-.24-.38A9.96 9.96 0 0 1 2 12c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10z"/></svg>
+        Consultar por WhatsApp
+      </a>
+    `;
+
+    // Botón agregar desde el modal
+    actionsEl.querySelector(".product-modal__add-btn")?.addEventListener("click", () => {
+      addToCart(product.id, state.products);
+      openProductDetail(product.id); // re-renderiza con el control de cantidad
+      renderProducts();
+    });
+
+    // Botones +/- desde el modal
+    actionsEl.querySelectorAll(".qty-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const { action, id } = btn.dataset;
+        if (action === "decrease") decreaseCartItem(id);
+        if (action === "increase") increaseCartItem(id);
+        openProductDetail(product.id); // re-renderiza la cantidad
+      });
+    });
+  }
+
+  // Bloquea scroll del body
+  document.body.style.overflow = "hidden";
+  overlay.classList.add("is-open");
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+  modal.focus?.();
+}
+
+/* ── closeProductDetail ─────────────────────────────────────────
+   Cierra el modal de detalle y restaura el scroll.
+   ─────────────────────────────────────────────────────────── */
+function closeProductDetail() {
+  const modal   = document.getElementById("productModal");
+  const overlay = document.getElementById("productModalOverlay");
+  if (!modal || !overlay) return;
+
+  overlay.classList.remove("is-open");
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+/* ── bindProductDetailEvents ────────────────────────────────────
+   Registra los eventos del modal de detalle de producto:
+   - Botón "Volver al catálogo" (#productModalClose)
+   - Click en el overlay oscuro
+   - Tecla Escape
+   ─────────────────────────────────────────────────────────── */
+function bindProductDetailEvents() {
+  document.getElementById("productModalClose")?.addEventListener("click", closeProductDetail);
+  document.getElementById("productModalOverlay")?.addEventListener("click", closeProductDetail);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      const modal = document.getElementById("productModal");
+      if (modal?.classList.contains("is-open")) closeProductDetail();
+    }
+  });
+}
+
 /* ── bindHeaderSearch ───────────────────────────────────────────
    Conecta el input #headerSearch del nav con un dropdown de
    resultados en vivo (#headerSearchResults).
@@ -502,7 +787,7 @@ function bindHeaderSearch() {
     state.searchTerm = term.toLowerCase();
     applyFilters();
 
-    document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("productRows")?.scrollIntoView({ behavior: "smooth", block: "start" });
     closeDropdown();
     input.value = "";
   }
