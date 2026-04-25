@@ -144,6 +144,11 @@ function renderCategoriesNav() {
   const fallbackImage = state.products.find((product) => product.imagen)?.imagen
     || "assets/img/productos/placeholder.jpg";
 
+  const shortLabels = {
+    "Vibradores de concreto": "Vibradoras",
+    "Compactadoras": "Compact.",
+  };
+
   function renderCategorySet() {
     return categorias.map((cat) => {
       const image = cat === "Todas"
@@ -151,13 +156,14 @@ function renderCategoriesNav() {
         : (categoryImageMap.get(cat) || fallbackImage);
 
       const activeClass = cat === state.activeCategory ? "active" : "";
+      const label = escapeHtml(shortLabels[cat] ?? cat);
 
       return `
         <button class="categoria-link ${activeClass}" type="button" data-category="${escapeAttribute(cat)}" aria-label="Filtrar por ${escapeAttribute(cat)}">
           <span class="categoria-link__bubble">
             <img src="${escapeAttribute(image)}" alt="${escapeAttribute(cat)}" loading="lazy" onerror="this.onerror=null; this.src='assets/img/productos/placeholder.jpg';" />
           </span>
-          <span class="categoria-link__label">${escapeHtml(cat)}</span>
+          <span class="categoria-link__label">${label}</span>
         </button>
       `;
     }).join("");
