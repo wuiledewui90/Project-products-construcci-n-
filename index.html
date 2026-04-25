@@ -56,7 +56,7 @@
 
     <!-- LOGO -->
     <a href="#inicio" class="brand">
-      <img src="assets/img/LogoDP.png" alt="ObraFuerte" class="brand__logo">
+      <img src="assets/img/logos/LogoDP.png" alt="ObraFuerte" class="brand__logo">
     </a>
 
     <!-- BUSCADOR: id="headerSearch" conectado a bindHeaderSearch() en app.js.
@@ -180,20 +180,15 @@
           </div>
         </div>
 
-        <!-- Columna derecha: tarjeta de estadísticas en vivo.
-        #heroProductCount y #heroCategoryCount son inyectados
-        por app.js → renderHeroStats() tras cargar el JSON. -->
+        <!-- Columna derecha: carrusel de logos publicitario -->
         <aside class="hero__card">
-          <div class="hero__stat">
-            <strong id="heroProductCount">0</strong>
-            <span>productos cargados</span>
-          </div>
-          <div class="hero__stat">
-            <strong id="heroCategoryCount">0</strong>
-            <span>categorías activas</span>
-          </div>
-          <div class="hero__note">
-            Catálogo integrado en un solo <code>index.html</code> con archivos separados de CSS, JS y JSON.
+          <div class="logos-carousel__track" id="logosTrack">
+            <img src="assets/img/logos/caratula logo.png"    alt="Marcas distribuidoras"  class="logos-carousel__img is-active" />
+            <img src="assets/img/logos/logo gamma.png"       alt="Gamma"                  class="logos-carousel__img" />
+            <img src="assets/img/logos/logo husqvarna.png"   alt="Husqvarna"              class="logos-carousel__img" />
+            <img src="assets/img/logos/logo metabo.png"      alt="Metabo"                 class="logos-carousel__img" />
+            <img src="assets/img/logos/logo niwa.png"        alt="Niwa"                   class="logos-carousel__img" />
+            <img src="assets/img/logos/logo ummi.png"        alt="Ummi"                   class="logos-carousel__img" />
           </div>
         </aside>
       </div>
@@ -360,7 +355,7 @@
     <!-- Columna 1: Identidad de marca y CTA WhatsApp -->
     <div class="footer__brand">
        <a href="#inicio" class="brand">
-      <img src="assets/img/LogoDP.png" alt="ObraFuerte" class="brand__logo">
+      <img src="assets/img/logos/LogoDP.png" alt="ObraFuerte" class="brand__logo">
     </a>
       <p>
         Herramientas y equipos para obra, industria y uso profesional.
@@ -440,5 +435,26 @@
   ============================================================ -->
   <script src="assets/js/carrito.js"></script>
   <script src="assets/js/app.js"></script>
+
+  <!-- ============================================================
+       CARRUSEL DE LOGOS — Auto-play con transición fade + scale
+       Cicla cada 3.5 s automáticamente.
+  ============================================================ -->
+  <script>
+    (function () {
+      const imgs = Array.from(document.querySelectorAll('.logos-carousel__img'));
+      if (!imgs.length) return;
+
+      let current = 0;
+
+      function goTo(idx) {
+        imgs[current].classList.remove('is-active');
+        current = (idx + imgs.length) % imgs.length;
+        imgs[current].classList.add('is-active');
+      }
+
+      setInterval(function () { goTo(current + 1); }, 3500);
+    })();
+  </script>
 </body>
 </html>
