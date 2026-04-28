@@ -689,7 +689,7 @@ function openProductDetail(productId) {
   if (actionsEl) {
     const cartItem = carritoState.items.find((i) => String(i.id) === String(product.id));
     const waText   = encodeURIComponent(product.whatsappTexto || `Hola, quiero consultar por ${product.nombre}`);
-    const waHref   = `https://wa.me/5493815035162?text=${waText}`;
+    const waHref   = `https://wa.me/543816349636?text=${waText}`;
 
     const cartHtml = cartItem
       ? `<div class="product-card__qty-control" style="border-radius:999px; padding: 6px 10px;">

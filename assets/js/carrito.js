@@ -235,7 +235,7 @@ function renderCart() {
 
   if (cartWhatsappLink) {
     const message = encodeURIComponent(buildWhatsappCartMessage());
-    cartWhatsappLink.href = `https://wa.me/5493815035162?text=${message}`;
+    cartWhatsappLink.href = `https://wa.me/543816349636?text=${message}`;
   }
 
   if (!cartItems) return;

@@ -431,7 +431,7 @@ select {
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
   gap: 32px;
-  align-items: center;
+  align-items: stretch;
 }
 
 .eyebrow,
@@ -503,23 +503,18 @@ select {
 /* ── Hero Card — full-bleed carousel ────────────────────────── */
 .hero__card {
   position: relative;
-  border: 1px solid rgba(255,255,255,0.14);
   border-radius: 24px;
   overflow: hidden;
-  min-height: 320px;
-  display: flex;
-  flex-direction: column;
+  align-self: stretch;
+  min-height: 360px;
 }
 
 /* ── Logos Carousel ─────────────────────────────────────────── */
 .logos-carousel__track {
-  position: relative;
-  flex: 1;
-  width: 100%;
-  min-height: 280px;
+  position: absolute;
+  inset: 0;
   overflow: hidden;
-  background: rgba(8, 18, 30, 0.72);
-  backdrop-filter: blur(14px);
+  background: #08121e;
 }
 
 .logos-carousel__img {
@@ -529,46 +524,15 @@ select {
   height: 100%;
   object-fit: contain;
   object-position: center;
-  padding: 28px 32px;
   opacity: 0;
   transform: scale(1.06);
   transition: opacity 1s cubic-bezier(0.4,0,0.2,1), transform 1s cubic-bezier(0.4,0,0.2,1);
-  filter: drop-shadow(0 4px 18px rgba(0,0,0,0.45));
   will-change: opacity, transform;
 }
 
 .logos-carousel__img.is-active {
   opacity: 1;
   transform: scale(1);
-}
-
-.logos-carousel__dots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-  padding: 12px 16px;
-  background: rgba(8, 18, 30, 0.82);
-  backdrop-filter: blur(10px);
-}
-
-.logos-carousel__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  background: rgba(255,255,255,0.25);
-  transition: background 0.35s ease, transform 0.35s ease, width 0.35s ease;
-  flex-shrink: 0;
-}
-
-.logos-carousel__dot.is-active {
-  background: var(--primary);
-  transform: scale(1.15);
-  width: 20px;
-  border-radius: 4px;
 }
 
 .section {
@@ -1538,6 +1502,9 @@ select {
 
   .hero__card {
     width: 100%;
+    height: 300px;
+    min-height: 0;
+    align-self: auto;
   }
 
   .hero__features {
@@ -1677,6 +1644,11 @@ select {
     align-self: start;
   }
 
+  .hero__card {
+    height: 260px;
+    min-height: 0;
+  }
+
   .section {
     padding: 56px 0;
   }
@@ -1766,6 +1738,11 @@ select {
     font-size: 0.98rem;
   }
 
+  .hero__card {
+    height: 220px;
+    min-height: 0;
+  }
+
   .hero__feature {
     grid-template-columns: 24px 1fr;
     gap: 8px;
@@ -1836,7 +1813,8 @@ select {
   }
 
   .hero__card {
-    min-height: 260px;
+    height: 180px;
+    min-height: 0;
   }
 
   .product-card__body {
