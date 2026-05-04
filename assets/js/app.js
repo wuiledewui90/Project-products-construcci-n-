@@ -152,7 +152,7 @@ function renderCategoriesNav() {
   function renderCategorySet() {
     return categorias.map((cat) => {
       const image = cat === "Todas"
-        ? "assets/img/LogoDP.png"
+        ? "assets/img/logos/LogoDP.png"
         : (categoryImageMap.get(cat) || fallbackImage);
 
       const activeClass = cat === state.activeCategory ? "active" : "";
@@ -161,7 +161,7 @@ function renderCategoriesNav() {
       return `
         <button class="categoria-link ${activeClass}" type="button" data-category="${escapeAttribute(cat)}" aria-label="Filtrar por ${escapeAttribute(cat)}">
           <span class="categoria-link__bubble">
-            <img src="${escapeAttribute(image)}" alt="${escapeAttribute(cat)}" loading="lazy" onerror="this.onerror=null; this.src='assets/img/productos/placeholder.jpg';" />
+            <img src="${escapeAttribute(image)}" alt="${escapeAttribute(cat)}" loading="lazy" onerror="this.onerror=null; this.src='assets/img/logos/LogoDP.png';" />
           </span>
           <span class="categoria-link__label">${label}</span>
         </button>
@@ -425,7 +425,8 @@ function applyFilters() {
         product.nombre,
         product.marca,
         product.codigo,
-        product.categoria
+        product.categoria,
+        product.descripcion
       ]
         .filter(Boolean)
         .join(" ")
@@ -579,6 +580,7 @@ function createProductCard(product) {
   const marca     = escapeHtml(product.marca     || "Sin marca");
   const categoria = escapeHtml(product.categoria || "Sin categoría");
   const codigo    = escapeHtml(product.codigo    || "-");
+  const descripcion = escapeHtml(product.descripcion || "");
   const imagen    = escapeAttribute(product.imagen || "assets/img/productos/placeholder.jpg");
   const stock     = Number.isFinite(Number(product.stock)) ? Number(product.stock) : 0;
   const precio    = Number(product.precioARS || product.precio || 0);
@@ -615,6 +617,7 @@ function createProductCard(product) {
         </div>
 
         <h3 class="product-card__title">${nombre}</h3>
+        ${descripcion ? `<p class="product-card__description">${descripcion}</p>` : ""}
 
         <div class="product-card__info">
           <span>Cód: <strong>${codigo}</strong></span>
@@ -664,6 +667,12 @@ function openProductDetail(productId) {
   // Nombre
   const nameEl = document.getElementById("productModalName");
   if (nameEl) nameEl.textContent = product.nombre || "Producto";
+
+  const descriptionEl = document.getElementById("productModalDescription");
+  if (descriptionEl) {
+    descriptionEl.textContent = product.descripcion || "";
+    descriptionEl.hidden = !product.descripcion;
+  }
 
   // Meta: código y stock
   const metaEl = document.getElementById("productModalMeta");
@@ -821,7 +830,7 @@ function bindHeaderSearch() {
     if (q.length < 2) { closeDropdown(); return; }
 
     const matches = state.products.filter((p) => {
-      const hay = [p.nombre, p.marca, p.codigo, p.categoria]
+      const hay = [p.nombre, p.marca, p.codigo, p.categoria, p.descripcion]
         .filter(Boolean).join(" ").toLowerCase();
       return hay.includes(q);
     });

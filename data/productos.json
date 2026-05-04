@@ -12,7 +12,8 @@
     "precioARS": 269895,
     "moneda": "ARS",
     "imagen": "assets/img/productos/CompresorNiwaANW2550.png",
-    "whatsappTexto": "Hola, quiero consultar por Compresor Niwa Alta Recup. 2.5HPx50Lt"
+    "whatsappTexto": "Hola, quiero consultar por Compresor Niwa Alta Recup. 2.5HPx50Lt",
+    "descripcion": "Compresor monofasico de alta recuperacion con tanque de 50 L, motor de 2,5 HP y presion maxima de 8 bar/116 psi. Ideal para inflado y tareas de taller liviano, con ruedas para facilitar el traslado."
   },
   {
     "id": 2,
@@ -27,7 +28,8 @@
     "precioARS": 40965,
     "moneda": "ARS",
     "imagen": "assets/img/productos/kitCompresor4p.png",
-    "whatsappTexto": "Hola, quiero consultar por Kit Para Compresor De 5 Piezas"
+    "whatsappTexto": "Hola, quiero consultar por Kit Para Compresor De 5 Piezas",
+    "descripcion": "Kit basico de accesorios neumaticos para aprovechar el compresor en tareas de inflado, soplado, limpieza y pintura ligera. Incluye piezas de conexion y uso rapido para taller, garage o mantenimiento."
   },
   {
     "id": 3,
@@ -42,7 +44,8 @@
     "precioARS": 682110,
     "moneda": "ARS",
     "imagen": "assets/img/productos/AmoladoraMetaboW24230MVT.png",
-    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W 24-230 MVT"
+    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W 24-230 MVT",
+    "descripcion": "Amoladora angular profesional de 2400 W para discos de 230 mm, pensada para corte y desbaste exigente. Integra empunadura Metabo VibraTech, mango trasero giratorio y proteccion contra arranque involuntario."
   },
   {
     "id": 4,
@@ -57,7 +60,8 @@
     "precioARS": 584505,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Sopladora De Mochila Niwa 63,5 CC.png",
-    "whatsappTexto": "Hola, quiero consultar por Sopladora De Mochila Niwa 63,5 CC"
+    "whatsappTexto": "Hola, quiero consultar por Sopladora De Mochila Niwa 63,5 CC",
+    "descripcion": "Sopladora de mochila Niwa SNW-650 con motor 2T de 63,3 cc, 2,1 kW, caudal de aire de 1080 m3/h y velocidad de aire de 252 km/h. Formato mochila con arnes y filtro doble para trabajos rurales y limpieza de grandes superficies."
   },
   {
     "id": 5,
@@ -72,7 +76,8 @@
     "precioARS": 127245,
     "moneda": "ARS",
     "imagen": "assets/img/productos/AmoladoraMetaboW65025.png",
-    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W 650-125"
+    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W 650-125",
+    "descripcion": "Amoladora compacta de 650 W para disco de 125 mm, indicada para corte, desbaste y trabajos generales. Diseno liviano con eje M14 y guarda protectora para uso practico en taller."
   },
   {
     "id": 6,
@@ -87,7 +92,8 @@
     "precioARS": 340605,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Amoladora Metabo WEQ 1400-125.png",
-    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo WEQ 1400-125"
+    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo WEQ 1400-125",
+    "descripcion": "Amoladora Metabo de 1400 W para disco de 125 mm, con cambio rapido M-Quick, embrague de seguridad S-automatic, arranque suave y proteccion contra rearranque. Mantiene alto avance de trabajo con electronica Constamatic."
   },
   {
     "id": 7,
@@ -102,7 +108,8 @@
     "precioARS": 168855,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Amoladora Metabo W 850-125.png",
-    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W 850-125"
+    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W 850-125",
+    "descripcion": "Amoladora angular Metabo de 850 W para disco de 125 mm, con 11.500 rpm y 2 Nm de torque. Una opcion robusta y compacta para cortes y desbastes cotidianos."
   },
   {
     "id": 8,
@@ -117,7 +124,8 @@
     "precioARS": 255615,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Motosierra Niwa 36 CC (CNW36) De Po.png",
-    "whatsappTexto": "Hola, quiero consultar por Motosierra Niwa 36 CC (CNW36) De Po"
+    "whatsappTexto": "Hola, quiero consultar por Motosierra Niwa 36 CC (CNW36) De Po",
+    "descripcion": "Motosierra de poda Niwa CNW-36 de 36 cc y 1,1 kW con espada de 12 pulgadas. Ligera y portable para poda y mantenimiento, equipada con carburador Walbro y bomba de aceite con cuerpo de aluminio."
   },
   {
     "id": 9,
@@ -132,7 +140,8 @@
     "precioARS": 256170,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Compresor Niwa ASW-6, 3 4HP Silencioso.png",
-    "whatsappTexto": "Hola, quiero consultar por Compresor Niwa ASW-6, 3/4HP Silencioso"
+    "whatsappTexto": "Hola, quiero consultar por Compresor Niwa ASW-6, 3/4HP Silencioso",
+    "descripcion": "Compresor silencioso oil-free Niwa ASW-6 de 6 L, 0,68 HP y 61 dB, con caudal de 105 L/min y presion maxima de 8 bar. Adecuado para uso domestico, odontologico, veterinario y trabajos donde se requiere bajo ruido."
   },
   {
     "id": 10,
@@ -147,7 +156,8 @@
     "precioARS": 250230,
     "moneda": "ARS",
     "imagen": "assets/img/productos/MotosierraNiwa45CC(CNW45).png",
-    "whatsappTexto": "Hola, quiero consultar por Motosierra Niwa 45 CC (CNW45)"
+    "whatsappTexto": "Hola, quiero consultar por Motosierra Niwa 45 CC (CNW45)",
+    "descripcion": "Motosierra Niwa CNW-45 de 45 cc y 2,1 kW con espada de 18 pulgadas. Equilibrada para fincas, jardin y corte de lena liviano; incluye carburador Walbro y bomba de aceite con cuerpo de aluminio."
   },
   {
     "id": 11,
@@ -162,7 +172,8 @@
     "precioARS": 216885,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Bordeadora Niwa 26 CC (Bnw26).png",
-    "whatsappTexto": "Hola, quiero consultar por Bordeadora Niwa 26 CC (Bnw26)"
+    "whatsappTexto": "Hola, quiero consultar por Bordeadora Niwa 26 CC (Bnw26)",
+    "descripcion": "Bordeadora Niwa BNW-26 de 26 cc y 0,7 kW con eje curvo, manillar tipo D y cabezal de tanza. Disenada para retoques finales, bordes y mantenimiento de jardines hogarenos."
   },
   {
     "id": 12,
@@ -177,7 +188,8 @@
     "precioARS": 434820,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Soldadora Inverter Niwa MMA-220.png",
-    "whatsappTexto": "Hola, quiero consultar por Soldadora Inverter Niwa MMA-220"
+    "whatsappTexto": "Hola, quiero consultar por Soldadora Inverter Niwa MMA-220",
+    "descripcion": "Soldadora inverter MMA monofasica de 220 A para uso profesional, compacta y apta para electrodos de 1,6 a 5 mm. Incluye funciones como Hot Start, Arc Force y Anti Stick para mejorar el encendido y la estabilidad del arco."
   },
   {
     "id": 13,
@@ -192,7 +204,8 @@
     "precioARS": 327765,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Motosierra A Bateria Niwa 36 V.14 Bm.png",
-    "whatsappTexto": "Hola, quiero consultar por Motosierra A Bateria Niwa 36 V.14 Bm"
+    "whatsappTexto": "Hola, quiero consultar por Motosierra A Bateria Niwa 36 V.14 Bm",
+    "descripcion": "Motosierra a bateria Niwa BMW-140 de 36 V con motor sin escobillas y espada de 14 pulgadas. Liviana, de bajo ruido y orientada a poda y reduccion de ramas; bateria y cargador se venden por separado."
   },
   {
     "id": 14,
@@ -207,7 +220,8 @@
     "precioARS": 1586745,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Plancha Compactadora Niwa Mcnw-65 CT.png",
-    "whatsappTexto": "Hola, quiero consultar por Plancha Compactadora Niwa Mcnw-65 C/T"
+    "whatsappTexto": "Hola, quiero consultar por Plancha Compactadora Niwa Mcnw-65 C/T",
+    "descripcion": "Plancha compactadora Niwa MCNW-65 con tanque de agua, motor de 6,5 HP, fuerza centrifuga de 13 kN y placa de 53 x 50 cm. Indicada para bacheo en asfalto y compactacion de suelos hasta 30 cm."
   },
   {
     "id": 15,
@@ -222,7 +236,8 @@
     "precioARS": 704310,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Amoladora Metabo W24-180 MVT.png",
-    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W24-180 MVT"
+    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W24-180 MVT",
+    "descripcion": "Amoladora Metabo W 24-180 MVT de 2400 W para disco de 180 mm, con 8450 rpm y 14 Nm de torque. Incorpora sistema antivibracion MVT, mango giratorio y escobillas auto-stop para proteger el motor."
   },
   {
     "id": 16,
@@ -237,7 +252,8 @@
     "precioARS": 147615,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Taladro De Percusión Metabo Sbe 650.png",
-    "whatsappTexto": "Hola, quiero consultar por Taladro De Percusión Metabo Sbe 650"
+    "whatsappTexto": "Hola, quiero consultar por Taladro De Percusión Metabo Sbe 650",
+    "descripcion": "Taladro percutor Metabo SBE 650 de 650 W con electronica Vario, reversa y mandril de 13 mm. Perfora hasta 13 mm en acero, 30 mm en madera blanda y alcanza 44.800 impactos por minuto."
   },
   {
     "id": 17,
@@ -252,7 +268,8 @@
     "precioARS": 359535,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Taladro De Percusión Metabo Sbe 760.png",
-    "whatsappTexto": "Hola, quiero consultar por Taladro De Percusión Metabo Sbe 760"
+    "whatsappTexto": "Hola, quiero consultar por Taladro De Percusión Metabo Sbe 760",
+    "descripcion": "Taladro percutor Metabo SBE 760 de 760 W con dos velocidades mecanicas, reversa y embrague de seguridad Metabo S-automatic. Ofrece hasta 24 Nm de torque y 58.000 impactos por minuto para perforacion exigente."
   },
   {
     "id": 18,
@@ -267,7 +284,8 @@
     "precioARS": 339195,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Soldadora Inverter Niwa MMA-160.png",
-    "whatsappTexto": "Hola, quiero consultar por Soldadora Inverter Niwa MMA-160"
+    "whatsappTexto": "Hola, quiero consultar por Soldadora Inverter Niwa MMA-160",
+    "descripcion": "Soldadora inverter MMA Niwa MMA-160 monofasica, compacta y liviana para casa o pequeno taller. Trabaja con electrodos de 1,6 a 4 mm, rango de alimentacion 160-275 V y ciclo de trabajo 160 A al 25%."
   },
   {
     "id": 19,
@@ -282,7 +300,8 @@
     "precioARS": 398535,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Vibrador De Concreto Elect. Niwa DVNW.png",
-    "whatsappTexto": "Hola, quiero consultar por Vibrador De Concreto Elect. Niwa DVNW"
+    "whatsappTexto": "Hola, quiero consultar por Vibrador De Concreto Elect. Niwa DVNW",
+    "descripcion": "Motor electrico Niwa DVNW para vibradores de inmersion, con potencia de 2,2 kW, vibracion de 12.000 vpm y encastre Malasia/Dynapac. Apto para cabezales de 38, 45, 50 y 70 mm; transmision y cabezal no incluidos."
   },
   {
     "id": 20,
@@ -297,7 +316,8 @@
     "precioARS": 265335,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Motosierra Niwa 50 CC (CNW50).png",
-    "whatsappTexto": "Hola, quiero consultar por Motosierra Niwa 50 CC (CNW50)"
+    "whatsappTexto": "Hola, quiero consultar por Motosierra Niwa 50 CC (CNW50)",
+    "descripcion": "Motosierra Niwa CNW-50 de 50 cc y 2,2 kW con espada de 20 pulgadas. Equipo confiable para usuarios exigentes, con carburador Walbro y bomba de aceite con cuerpo de aluminio."
   },
   {
     "id": 21,
@@ -312,7 +332,8 @@
     "precioARS": 594420,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Generador Niwa 2,7 KVA 4T (Gnw-28).png",
-    "whatsappTexto": "Hola, quiero consultar por Generador Niwa 2,7 KVA 4T (Gnw-28)"
+    "whatsappTexto": "Hola, quiero consultar por Generador Niwa 2,7 KVA 4T (Gnw-28)",
+    "descripcion": "Generador naftero monofasico Niwa GNW-28 de 2,8 kVA con motor 4T de 6,5 HP, bobinado en cobre y arranque manual. Incluye AVR, alerta de aceite, dos salidas 220 V y autonomia aproximada de 9 horas."
   },
   {
     "id": 22,
@@ -327,7 +348,8 @@
     "precioARS": 289350,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Sopla-Aspiradora Niwa 26 CC (Snw260).png",
-    "whatsappTexto": "Hola, quiero consultar por Sopla-Aspiradora Niwa 26 CC (Snw260)"
+    "whatsappTexto": "Hola, quiero consultar por Sopla-Aspiradora Niwa 26 CC (Snw260)",
+    "descripcion": "Sopla-aspiradora Niwa SNW-260 de 26 cc y 0,7 kW, con velocidad de aire de 248 km/h y kit de aspirado incluido. Practica para juntar hojas y residuos de cesped en jardines y espacios verdes."
   },
   {
     "id": 23,
@@ -342,7 +364,8 @@
     "precioARS": 1442265,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Allanadora Niwa Acnw-80 -0.90 M Motor.png",
-    "whatsappTexto": "Hola, quiero consultar por Allanadora Niwa Acnw-80 -0.90 M Motor"
+    "whatsappTexto": "Hola, quiero consultar por Allanadora Niwa Acnw-80 -0.90 M Motor",
+    "descripcion": "Allanadora de concreto Niwa ACNW-80/90 con motor de 6,5 HP, cuatro llanas y diametro de llaneado de 90 cm. Pensada para terminacion eficiente de pisos de concreto en obras medianas y grandes."
   },
   {
     "id": 24,
@@ -357,7 +380,8 @@
     "precioARS": 242910,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Amoladora Metabo W1100-125.png",
-    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W1100-125"
+    "whatsappTexto": "Hola, quiero consultar por Amoladora Metabo W1100-125",
+    "descripcion": "Amoladora Metabo W 1100-125 de 1100 W para disco de 125 mm, con 12.000 rpm y 3,2 Nm de torque. Robusta para corte y desbaste, con proteccion contra rearranque y escobillas auto-stop."
   },
   {
     "id": 25,
@@ -372,7 +396,8 @@
     "precioARS": 877500,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Ingletadora Metabo Kgs 216 M.png",
-    "whatsappTexto": "Hola, quiero consultar por Ingletadora Metabo Kgs 216 M"
+    "whatsappTexto": "Hola, quiero consultar por Ingletadora Metabo Kgs 216 M",
+    "descripcion": "Ingletadora telescopica Metabo KGS 216 M con hoja de 216 mm, potencia de 1200/1500 W y capacidad de corte de 305 x 70 mm a 90 grados. Integra linea de corte por LED, mesa extensible y sujecion rapida."
   },
   {
     "id": 26,
@@ -387,7 +412,8 @@
     "precioARS": 1192440,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Fresadora Metabo Of E 1229 Signal.png",
-    "whatsappTexto": "Hola, quiero consultar por Fresadora Metabo Of E 1229 Signal"
+    "whatsappTexto": "Hola, quiero consultar por Fresadora Metabo Of E 1229 Signal",
+    "descripcion": "Fresadora Metabo OF E 1229 Signal de 1200 W con velocidad variable de 5.000 a 25.500 rpm y pinza de 8 mm. Permite ajuste fino de profundidad a 0,1 mm y electronica VTC para velocidad constante bajo carga."
   },
   {
     "id": 27,
@@ -402,7 +428,8 @@
     "precioARS": 1323600,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Generador Niwa 5,5 KVA 4 T Arr. El..png",
-    "whatsappTexto": "Hola, quiero consultar por Generador Niwa 5,5 KVA 4 T Arr. El."
+    "whatsappTexto": "Hola, quiero consultar por Generador Niwa 5,5 KVA 4 T Arr. El.",
+    "descripcion": "Generador naftero Niwa GNW-55-E de 5,5 kVA con motor 4T de 13 HP, bobinado en cobre y arranque electrico. Monofasico 220 V con AVR, alerta de aceite, tanque de 25 L y autonomia aproximada de 8 horas."
   },
   {
     "id": 28,
@@ -417,7 +444,8 @@
     "precioARS": 1180800,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Generador Niwa 7 KVA 4T Arr Elect Y R.png",
-    "whatsappTexto": "Hola, quiero consultar por Generador Niwa 7 KVA 4T Arr Elect Y R"
+    "whatsappTexto": "Hola, quiero consultar por Generador Niwa 7 KVA 4T Arr Elect Y R",
+    "descripcion": "Generador naftero Niwa GNW-70-ER de 7 kVA con motor 4T de 16 HP, arranque electrico y ruedas. Equipo monofasico 220 V con AVR, alerta de aceite, tanque de 25 L y autonomia aproximada de 8 horas."
   },
   {
     "id": 29,
@@ -432,7 +460,8 @@
     "precioARS": 464970,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Vibrador De Concreto Vcnw-55 Motor.png",
-    "whatsappTexto": "Hola, quiero consultar por Vibrador De Concreto Vcnw-55 Motor"
+    "whatsappTexto": "Hola, quiero consultar por Vibrador De Concreto Vcnw-55 Motor",
+    "descripcion": "Unidad motriz Niwa VCNW-55 a explosion para vibradores de inmersion, con motor de 5,5 HP, 3000 rpm y vibracion de 12.000 vpm. Usa encastre Malasia/Dynapac y acepta cabezales de 38 a 70 mm."
   },
   {
     "id": 30,
@@ -447,7 +476,8 @@
     "precioARS": 4077885,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Plancha Comp Husq Lfv80 Honda Gx160.png",
-    "whatsappTexto": "Hola, quiero consultar por Plancha Comp Husq Lfv80 Honda Gx160"
+    "whatsappTexto": "Hola, quiero consultar por Plancha Comp Husq Lfv80 Honda Gx160",
+    "descripcion": "Placa compactadora Husqvarna LFV 80 con motor Honda GX160, placa de 420 mm, peso aproximado de 81 kg y fuerza centrifuga de 19 kN. Ideal para capas finas a medias de suelos granulares y aplicaciones de asfalto con accesorio opcional."
   },
   {
     "id": 31,
@@ -462,7 +492,8 @@
     "precioARS": 1749150,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Motopisón Niwa Mqnw-40 Motor Niwa.png",
-    "whatsappTexto": "Hola, quiero consultar por Motopisón Niwa Mqnw-40 Motor Niwa"
+    "whatsappTexto": "Hola, quiero consultar por Motopisón Niwa Mqnw-40 Motor Niwa",
+    "descripcion": "Motopison Niwa MQNW-40 con motor Niwa de 4 HP, fuerza de impacto de 10 kN y pie de 30 x 31 cm. Equipo de compactacion para suelos en obra, con 450 a 650 impactos por minuto y peso bruto de 76 kg."
   },
   {
     "id": 32,
@@ -477,7 +508,8 @@
     "precioARS": 496020,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Motosierra Niwa 62 CC (CNW62).png",
-    "whatsappTexto": "Hola, quiero consultar por Motosierra Niwa 62 CC (CNW62)"
+    "whatsappTexto": "Hola, quiero consultar por Motosierra Niwa 62 CC (CNW62)",
+    "descripcion": "Motosierra Niwa CNW-62 de 62 cc y 3,2 kW con espada de 22 pulgadas. Robusta para uso exigente e intensivo, con carburador Walbro y bomba de aceite con cuerpo de aluminio."
   },
   {
     "id": 33,
@@ -492,7 +524,8 @@
     "precioARS": 62895,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Gamma - Bomba QB 60 Periférica 1 2 HP.png",
-    "whatsappTexto": "Hola, quiero consultar por Gamma - Bomba QB 60 Periférica 1/2 HP"
+    "whatsappTexto": "Hola, quiero consultar por Gamma - Bomba QB 60 Periférica 1/2 HP",
+    "descripcion": "Bomba periferica Gamma QB60 de 1/2 HP para aguas claras, con caudal maximo de 40 L/min y altura maxima de hasta 20-22 m segun ficha. Apta para riego, lavado, elevacion y abastecimiento domestico."
   },
   {
     "id": 34,
@@ -507,7 +540,8 @@
     "precioARS": 65820,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Gamma - Taladro 650 W  3000 RPM.png",
-    "whatsappTexto": "Hola, quiero consultar por Gamma - Taladro 650 W | 3000 RPM"
+    "whatsappTexto": "Hola, quiero consultar por Gamma - Taladro 650 W | 3000 RPM",
+    "descripcion": "Taladro de impacto Gamma G1905AR de 650 W y 3000 rpm, con mandril autoajustable de 10 mm, reversa y selector de percusion. Pensado para uso domestico en madera, metal, mamposteria y materiales similares."
   },
   {
     "id": 35,
@@ -522,7 +556,8 @@
     "precioARS": 80445,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Gamma - Taladro En Kit 710W.png",
-    "whatsappTexto": "Hola, quiero consultar por Gamma - Taladro En Kit 710W"
+    "whatsappTexto": "Hola, quiero consultar por Gamma - Taladro En Kit 710W",
+    "descripcion": "Taladro de impacto Gamma G1904KAR de 710 W con percusion, reversa y mandril de 13 mm. Se entrega en maletin con accesorios para perforar madera, metal y mamposteria, mas puntas y tubos para tareas varias."
   },
   {
     "id": 36,
@@ -537,7 +572,8 @@
     "precioARS": 195975,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Umi - Sierra Circular 7 1 4 1400 W.png",
-    "whatsappTexto": "Hola, quiero consultar por Umi - Sierra Circular 7 1/4 1400 W"
+    "whatsappTexto": "Hola, quiero consultar por Umi - Sierra Circular 7 1/4 1400 W",
+    "descripcion": "Sierra circular UMI HU007 de 1400 W para hoja de 185 mm, con guia paralela, corte biselado de 0 a 45 grados y capacidad de corte de 64 mm a 90 grados. Incluye traba para cambio de hoja y guarda retractil."
   },
   {
     "id": 37,
@@ -552,7 +588,8 @@
     "precioARS": 162345,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Umi - Taladro Percutor 850 W 13Mm.png",
-    "whatsappTexto": "Hola, quiero consultar por Umi - Taladro Percutor 850 W 13Mm"
+    "whatsappTexto": "Hola, quiero consultar por Umi - Taladro Percutor 850 W 13Mm",
+    "descripcion": "Taladro percutor UMI HU025 de 850 W con mandril de 13 mm, velocidad variable, reversa y dos velocidades mecanicas. Alcanza 0-2800 rpm y permite perforar acero, madera y mamposteria."
   },
   {
     "id": 38,
@@ -567,7 +604,8 @@
     "precioARS": 228150,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Umi - Amoladora Angular 7 2200 W.png",
-    "whatsappTexto": "Hola, quiero consultar por Umi - Amoladora Angular 7 2200 W"
+    "whatsappTexto": "Hola, quiero consultar por Umi - Amoladora Angular 7 2200 W",
+    "descripcion": "Amoladora angular UMI HU003 de 2200 W para disco de 180 mm, con 8300 rpm, carcasa metalica y empunadura giratoria. Preparada para trabajos pesados de corte y desbaste."
   },
   {
     "id": 39,
@@ -582,7 +620,8 @@
     "precioARS": 253020,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Umi - Amoladora Angular 9 2200 W.png",
-    "whatsappTexto": "Hola, quiero consultar por Umi - Amoladora Angular 9 2200 W"
+    "whatsappTexto": "Hola, quiero consultar por Umi - Amoladora Angular 9 2200 W",
+    "descripcion": "Amoladora angular UMI HU004 de 2200 W para disco de 230 mm, con eje M14, carcasa metalica y empunadura giratoria. Equipo robusto para cortes y desbastes exigentes."
   },
   {
     "id": 40,
@@ -597,7 +636,8 @@
     "precioARS": 87750,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Umi - Lijadora Orbital 210 W 14000 RPM.png",
-    "whatsappTexto": "Hola, quiero consultar por Umi - Lijadora Orbital 210 W 14000 RPM"
+    "whatsappTexto": "Hola, quiero consultar por Umi - Lijadora Orbital 210 W 14000 RPM",
+    "descripcion": "Lijadora orbital UMI HU005 de 210 W con base de 110 x 100 mm, 14.000 rpm y bolsa recolectora de polvo. Cuenta con soft grip y sistema de presillas para fijar lijas de forma rapida."
   },
   {
     "id": 41,
@@ -612,6 +652,7 @@
     "precioARS": 99450,
     "moneda": "ARS",
     "imagen": "assets/img/productos/Umi - Taladro Percutor CMaletin 550.png",
-    "whatsappTexto": "Hola, quiero consultar por Umi - Taladro Percutor C/Maletin 550"
+    "whatsappTexto": "Hola, quiero consultar por Umi - Taladro Percutor C/Maletin 550",
+    "descripcion": "Taladro rotopercutor UMI HU022 de 550 W con maletin, velocidad variable, reversa, mandril de 13 mm y limitador de profundidad. Perfora con o sin percusion en madera, acero y mamposteria."
   }
 ]
