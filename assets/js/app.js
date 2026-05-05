@@ -36,6 +36,7 @@ const productDragState = {
   startX: 0,
   startScrollLeft: 0
 };
+const PRODUCT_DRAG_CLICK_THRESHOLD = 22;
 
 const categoryLoopState = {
   rafId: 0,
@@ -395,6 +396,13 @@ function bindEvents() {
       return;
     }
 
+    // --- Botón "Ver detalle" ---
+    const detailBtn = event.target.closest(".product-card__detail-btn");
+    if (detailBtn) {
+      openProductDetail(detailBtn.dataset.id);
+      return;
+    }
+
     // --- Botón "Agregar" ---
     const addBtn = event.target.closest(".product-card__cart-btn");
     if (addBtn) {
@@ -416,11 +424,23 @@ function bindEvents() {
       return;
     }
 
-    // --- Click en la tarjeta (imagen o cuerpo) → abre detalle ---
+    // --- Click en la tarjeta -> abre detalle ---
     const card = event.target.closest(".product-card");
-    if (card && card.dataset.id) {
+    if (card?.dataset.id) {
       openProductDetail(card.dataset.id);
     }
+  });
+
+  document.getElementById("productRows")?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    if (event.target.closest("button, a, input, select, textarea")) return;
+
+    const detailTarget = event.target.closest(".product-card");
+    const card = detailTarget?.closest(".product-card");
+    if (!card?.dataset.id) return;
+
+    event.preventDefault();
+    openProductDetail(card.dataset.id);
   });
 }
 
@@ -581,7 +601,10 @@ function bindProductGridNavigation() {
     if (!rowGrid) return;
 
     const deltaX = event.clientX - productDragState.startX;
-    if (Math.abs(deltaX) > 8) productDragState.suppressClick = true;
+    const canScroll = rowGrid.scrollWidth > rowGrid.clientWidth + 8;
+    if (canScroll && Math.abs(deltaX) > PRODUCT_DRAG_CLICK_THRESHOLD) {
+      productDragState.suppressClick = true;
+    }
     rowGrid.scrollLeft = productDragState.startScrollLeft - deltaX;
     event.preventDefault();
   }, { passive: false });
@@ -692,12 +715,18 @@ function createProductCard(product) {
         Agregar
       </button>`;
 
+  const detailButtonHtml = `
+    <button class="product-card__detail-btn" type="button" data-id="${product.id}">
+      Ver detalle
+    </button>
+  `;
+
   // Clase adicional cuando el producto ya está en el carrito (borde dorado)
   const inCartClass = cartItem ? " product-card--in-cart" : "";
 
   return `
     <article class="product-card${inCartClass}" data-id="${product.id}">
-      <div class="product-card__image product-card__image--clickable">
+      <div class="product-card__image product-card__image--clickable" role="button" tabindex="0" aria-label="Ver información de ${nombre}">
         <img src="${imagen}" alt="${nombre}" loading="lazy" onerror="this.style.opacity='0.25';" />
       </div>
       <div class="product-card__body">
@@ -706,7 +735,7 @@ function createProductCard(product) {
           <span class="badge badge--brand">${marca}</span>
         </div>
 
-        <h3 class="product-card__title">${nombre}</h3>
+        <h3 class="product-card__title" role="button" tabindex="0" aria-label="Ver información de ${nombre}">${nombre}</h3>
         ${descripcion ? `<p class="product-card__description">${descripcion}</p>` : ""}
 
         <div class="product-card__info">
@@ -719,7 +748,10 @@ function createProductCard(product) {
             <span>Precio</span>
             <strong>${currencyFormatter.format(precio)}</strong>
           </div>
-          ${actionHtml}
+          <div class="product-card__footer-actions">
+            ${detailButtonHtml}
+            ${actionHtml}
+          </div>
         </div>
       </div>
     </article>
