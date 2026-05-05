@@ -28,6 +28,15 @@ const state = {
   searchTerm: ""         // Término de búsqueda en minúsculas
 };
 
+const productDragState = {
+  isDragging: false,
+  suppressClick: false,
+  pointerId: null,
+  grid: null,
+  startX: 0,
+  startScrollLeft: 0
+};
+
 const categoryLoopState = {
   rafId: 0,
   lastTs: 0,
@@ -380,6 +389,12 @@ function bindEvents() {
 
   // Delegación de eventos para botones de carrito en las cards
   document.getElementById("productRows")?.addEventListener("click", (event) => {
+    if (productDragState.suppressClick) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
     // --- Botón "Agregar" ---
     const addBtn = event.target.closest(".product-card__cart-btn");
     if (addBtn) {
@@ -460,37 +475,66 @@ function renderProducts() {
 
   if (!state.filteredProducts.length) {
     productRows.classList.remove("is-single-row");
+    productRows.classList.remove("is-filtered-list");
     productRows.innerHTML = '<div class="catalog-empty">No se encontraron productos con ese criterio.</div>';
     refreshProductGridNavigation();
     return;
   }
 
   const hasActiveFilter = state.activeCategory !== "Todas" || state.searchTerm.length > 0;
-  const rowBuckets = hasActiveFilter ? [state.filteredProducts] : [[], [], []];
-
-  if (!hasActiveFilter) {
-    state.filteredProducts.forEach((product, index) => {
-      rowBuckets[index % 3].push(product);
-    });
-  }
-
   productRows.classList.toggle("is-single-row", hasActiveFilter);
+  productRows.classList.toggle("is-filtered-list", hasActiveFilter);
 
-  productRows.innerHTML = rowBuckets
-    .filter((rowProducts) => rowProducts.length > 0)
-    .map((rowProducts, index) => {
-      const rowCards = rowProducts.map((product) => createProductCard(product)).join("");
+  const categoryGroups = hasActiveFilter
+    ? [{
+        name: state.searchTerm ? "Resultados" : state.activeCategory,
+        products: state.filteredProducts
+      }]
+    : groupProductsByCategory(state.filteredProducts);
+
+  productRows.innerHTML = categoryGroups
+    .filter((group) => group.products.length > 0)
+    .map((group, index) => {
+      const rowCards = group.products.map((product) => createProductCard(product)).join("");
+      const countLabel = group.products.length === 1 ? "1 producto" : `${group.products.length} productos`;
       return `
-        <div class="product-grid-shell" data-row-index="${index + 1}">
-          <button class="product-grid-arrow product-grid-arrow--prev" type="button" data-dir="prev" aria-label="Ver productos anteriores de la fila ${index + 1}">❮</button>
-          <div class="product-grid" data-row-grid="${index + 1}">${rowCards}</div>
-          <button class="product-grid-arrow product-grid-arrow--next" type="button" data-dir="next" aria-label="Ver productos siguientes de la fila ${index + 1}">❯</button>
-        </div>
+        <section class="product-category-group" aria-label="${escapeAttribute(group.name)}">
+          <div class="product-category-group__head">
+            <h3>${escapeHtml(group.name)}</h3>
+            <span>${countLabel}</span>
+          </div>
+          <div class="product-grid-shell" data-row-index="${index + 1}">
+            <button class="product-grid-arrow product-grid-arrow--prev" type="button" data-dir="prev" aria-label="Ver productos anteriores de ${escapeAttribute(group.name)}">❮</button>
+            <div class="product-grid" data-row-grid="${index + 1}">${rowCards}</div>
+            <button class="product-grid-arrow product-grid-arrow--next" type="button" data-dir="next" aria-label="Ver más productos de ${escapeAttribute(group.name)}">❯</button>
+          </div>
+        </section>
       `;
     })
     .join("");
 
   refreshProductGridNavigation();
+}
+
+function groupProductsByCategory(products) {
+  const groups = new Map();
+
+  products.forEach((product) => {
+    const category = product.categoria || "Sin categoria";
+    if (!groups.has(category)) groups.set(category, []);
+    groups.get(category).push(product);
+  });
+
+  return [...groups.entries()]
+    .sort(([categoryA], [categoryB]) => (
+      categoryA.localeCompare(categoryB, "es", { sensitivity: "base" })
+    ))
+    .map(([name, groupProducts]) => ({
+      name,
+      products: groupProducts.sort((a, b) => (
+        String(a.nombre || "").localeCompare(String(b.nombre || ""), "es", { sensitivity: "base" })
+      ))
+    }));
 }
 
 /* ── Navegación del carrusel de productos ──────────────────────
@@ -514,6 +558,52 @@ function bindProductGridNavigation() {
 
     rowGrid.scrollBy({ left: step * direction, behavior: "smooth" });
   });
+
+  rows.addEventListener("pointerdown", (event) => {
+    const rowGrid = event.target.closest(".product-grid");
+    if (!rowGrid) return;
+    if (event.target.closest("button, a, input, select, textarea")) return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    productDragState.isDragging = true;
+    productDragState.suppressClick = false;
+    productDragState.pointerId = event.pointerId;
+    productDragState.grid = rowGrid;
+    productDragState.startX = event.clientX;
+    productDragState.startScrollLeft = rowGrid.scrollLeft;
+    rowGrid.classList.add("is-dragging");
+    rowGrid.setPointerCapture?.(event.pointerId);
+  });
+
+  rows.addEventListener("pointermove", (event) => {
+    if (!productDragState.isDragging || productDragState.pointerId !== event.pointerId) return;
+    const rowGrid = productDragState.grid;
+    if (!rowGrid) return;
+
+    const deltaX = event.clientX - productDragState.startX;
+    if (Math.abs(deltaX) > 8) productDragState.suppressClick = true;
+    rowGrid.scrollLeft = productDragState.startScrollLeft - deltaX;
+    event.preventDefault();
+  }, { passive: false });
+
+  function endProductDrag(event) {
+    if (!productDragState.isDragging || productDragState.pointerId !== event.pointerId) return;
+
+    productDragState.grid?.classList.remove("is-dragging");
+    productDragState.grid?.releasePointerCapture?.(event.pointerId);
+    productDragState.isDragging = false;
+    productDragState.pointerId = null;
+    productDragState.grid = null;
+
+    if (productDragState.suppressClick) {
+      window.setTimeout(() => {
+        productDragState.suppressClick = false;
+      }, 0);
+    }
+  }
+
+  rows.addEventListener("pointerup", endProductDrag);
+  rows.addEventListener("pointercancel", endProductDrag);
 
   rows.addEventListener("scroll", (event) => {
     if (event.target.classList?.contains("product-grid")) {
