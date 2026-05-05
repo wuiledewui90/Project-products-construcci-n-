@@ -889,7 +889,11 @@ function closeProductDetail() {
    ─────────────────────────────────────────────────────────── */
 function bindProductDetailEvents() {
   document.getElementById("productModalClose")?.addEventListener("click", closeProductDetail);
+  document.getElementById("productModalCloseX")?.addEventListener("click", closeProductDetail);
   document.getElementById("productModalOverlay")?.addEventListener("click", closeProductDetail);
+  document.getElementById("productModal")?.addEventListener("click", (event) => {
+    if (event.target?.id === "productModal") closeProductDetail();
+  });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       const modal = document.getElementById("productModal");
