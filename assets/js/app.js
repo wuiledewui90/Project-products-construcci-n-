@@ -152,7 +152,7 @@ function renderCategoriesNav() {
   function renderCategorySet() {
     return categorias.map((cat) => {
       const image = cat === "Todas"
-        ? "assets/img/logos/LogoDP.png"
+        ? "assets/img/logos/caratula logo.png"
         : (categoryImageMap.get(cat) || fallbackImage);
 
       const activeClass = cat === state.activeCategory ? "active" : "";
