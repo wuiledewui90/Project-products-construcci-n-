@@ -365,7 +365,7 @@ select {
   border-radius: 999px;
   padding: 0 18px;
   font-weight: 700;
-  transition: 0.2s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
 }
 
 .header__cta,
@@ -374,12 +374,87 @@ select {
   color: #111827;
   box-shadow: var(--shadow);
   border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.header__cta::after,
+.btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.45s ease;
+}
+
+.header__cta:hover,
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.45);
+}
+
+.header__cta:hover::after,
+.btn--primary:hover::after {
+  transform: translateX(100%);
+}
+
+.header__cta:active,
+.btn--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
 }
 
 .btn--ghost {
   border: 1px solid rgba(255, 255, 255, 0.18);
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.12);
+}
+
+.btn--ghost:active {
+  transform: translateY(0);
+}
+
+.btn--whatsapp {
+  background: #25d366;
+  color: #fff;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+}
+
+.btn--whatsapp::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.45s ease;
+}
+
+.btn--whatsapp:hover {
+  background: #1ebe5d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.55);
+}
+
+.btn--whatsapp:hover::after {
+  transform: translateX(100%);
+}
+
+.btn--whatsapp:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);
 }
 
 /* .header__cart y #cartCount eliminados — reemplazados por .cart-toggle y .cart-badge */
@@ -396,6 +471,8 @@ select {
   border: 1px solid rgba(255,255,255,0.2);
   color: #fff;
   background: rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
 }
 
 .hero {
@@ -472,9 +549,9 @@ select {
 
 .hero__features {
   display: grid;
-  grid-template-columns: repeat(2, minmax(220px, 1fr));
-  column-gap: 34px;
-  row-gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 28px;
+  row-gap: 22px;
   margin-top: 38px;
   padding-top: 24px;
   border-top: 1px solid rgba(255,255,255,0.14);
@@ -1097,11 +1174,33 @@ select {
   color: var(--text);
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  overflow: hidden;
+  transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.cart-toggle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.45s ease;
 }
 
 .cart-toggle:hover {
   background: var(--primary);
+  color: #111827;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+}
+
+.cart-toggle:hover::after {
+  transform: translateX(100%);
+}
+
+.cart-toggle:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .cart-toggle .cart-badge {
@@ -1337,12 +1436,20 @@ select {
   color: var(--muted);
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .btn--ghost-dark:hover {
   background: var(--bg);
   color: var(--text);
+  border-color: var(--muted);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn--ghost-dark:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* ============================================================
@@ -1539,7 +1646,8 @@ select {
 
   .hero__features {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    column-gap: 20px;
+    row-gap: 18px;
   }
 
   .hero__feature {
